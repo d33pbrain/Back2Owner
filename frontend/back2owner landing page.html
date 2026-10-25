@@ -4,29 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Back2Owner</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="output.css" />
   <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              brand: { DEFAULT: "#2057E0", tint: "#E2ECFF", dark: "#OB1F4D"  },
-              amber: { tint: "#FFEEDD"},
-              accent: { DEFAULT: "#F97316", dark: "#EA580C" },
-              canvas: "#EEF2F8",
-        },
-        fontFamily: { sans: ["Plus Jakarta Sans", "sans-serif"] },
-      },
-    },
-  };
-  </script>
-  <style>
-    .nav-link { border-bottom: 2px solid transparent; }
-    .nav-link.is-active { border-bottom-color: #F97316; }
-  </style>
 </head>
-<body class="font-sans text-slate-900 bg-[#EEF2F8]">
+<body class="bg-canvas">
 
   <header class="sticky top-0 z-50 bg-white border-b border-slate-100">
     <nav class="max-w-[1280px] mx-auto flex items-center justify-between px-4 sm:px-10 h-20">
@@ -54,7 +35,7 @@
       </button>
     </nav>
 
-    <!-- Phone menu (hidden until the button is tapped) -->
+    <!-- Phone menu -->
     <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 px-4 pb-4">
       <ul class="flex flex-col gap-3 py-3 text-sm font-medium">
         <li><a href="#how-it-works">How It Works</a></li>
@@ -67,422 +48,298 @@
       </div>
     </div>
   </header>
+  
   <section class="max-w-[1280px] mx-auto px-3 pt-4">
+    <div class="relative isolate overflow-hidden px-6 pt-12 min-h-[680px] sm:px-10 sm:pt-16 sm:min-h-[720px] xl:p-0 xl:min-h-0 xl:h-[725px]">
+      <div class="absolute inset-0 -z-10 rounded-3xl bg-brand xl:hidden"></div>
+      <img src="images/Rectangle 1.svg" alt="" class="absolute inset-0 -z-10 hidden h-full w-full xl:block" />
 
-  <!-- Blue block: min-h on phones (art sits inside it), 725px on desktop -->
-  <div class="relative isolate overflow-hidden px-6 pt-12 min-h-[680px] sm:px-10 sm:pt-16 sm:min-h-[720px] xl:p-0 xl:min-h-0 xl:h-[725px]">
-    <!-- Phones and tablets: plain rounded blue -->
-    <div class="absolute inset-0 -z-10 rounded-3xl bg-brand xl:hidden"></div>
+      <h1 class="relative z-10 text-4xl sm:text-6xl font-extrabold leading-none tracking-[-0.02em] text-white xl:absolute xl:top-[202px] xl:left-[59px] xl:w-[818px] xl:text-[72px]">Reuniting Students With Their <span class="text-accent">Lost Belongings.</span></h1>
 
-    <!-- Desktop: the exact shape from Figma (1256 x 725) -->
-    <img src="images/Rectangle 1.svg" alt="" class="absolute inset-0 -z-10 hidden h-full w-full xl:block" />
+      <p class="relative z-10 mt-4 max-w-[790px] text-base sm:text-lg leading-7 text-brand-tint xl:absolute xl:top-[392px] xl:left-[59px] xl:w-[790px] xl:mt-0 xl:text-[22px] xl:leading-[34px]">A centralized, student-driven network to quickly locate missing items or report found belongings across campus halls, lecture theatres, and faculties.</p>
 
-    <!-- Headline (relative z-10 keeps it above the girl on phones) -->
-    <h1 class="relative z-10 text-4xl sm:text-6xl font-extrabold leading-none tracking-[-0.02em] text-white xl:absolute xl:top-[202px] xl:left-[59px] xl:w-[818px] xl:text-[72px]">Reuniting Students With Their <span class="text-accent">Lost Belongings.</span></h1>
+      <img src="images/girl.png" alt="Student searching with a magnifying glass"
+           class="absolute bottom-0 right-0 z-0 h-auto w-[260px] sm:w-[340px] xl:bottom-auto xl:right-auto xl:max-w-none xl:w-[684px] xl:h-[916px] xl:top-[-48px] xl:left-[686px]" />
 
-    <!-- Paragraph -->
-    <p class="relative z-10 mt-4 max-w-[790px] text-base sm:text-lg leading-7 text-brand-tint xl:absolute xl:top-[392px] xl:left-[59px] xl:w-[790px] xl:mt-0 xl:text-[22px] xl:leading-[34px]">A centralized, student-driven network to quickly locate missing items or report found belongings across campus halls, lecture theatres, and faculties.</p>
-
-    <!-- Photo: PHONE = background, bottom-right | DESKTOP = Figma position -->
-    <img src="images/girl.png" alt="Student searching with a magnifying glass"
-         class="absolute bottom-0 right-0 z-0 h-auto w-[260px] sm:w-[340px]
-                xl:bottom-auto xl:right-auto xl:max-w-none xl:w-[684px] xl:h-[916px] xl:top-[-48px] xl:left-[686px]" />
-
-    <!-- Metric 1: 140 x 140, radius 70, #0B1F4D, top 553, left 736 -->
-    <div class="absolute bottom-[110px] left-[-5px] z-10 h-[140px] w-[140px] scale-[0.7] rounded-[70px] bg-[#0B1F4D]
-                xl:bottom-auto xl:top-[553px] xl:left-[736px] xl:scale-100">
-      <div class="absolute top-[32px] left-[13px] flex h-[76px] w-[115px] flex-col items-center justify-between">
-        <span class="flex h-[40px] w-[98px] items-center justify-center text-[32px] font-extrabold leading-none text-amber-tint">1420+</span>
-        <span class="flex h-[40px] w-[76px] items-center justify-center text-center text-[14px] font-normal leading-[20px] text-amber-tint">Recovered items</span>
-      </div>
-    </div>
-
-    <!-- Metric 2: 140 x 140, radius 70, #FFFFFF, top 553, left 884 -->
-    <div class="absolute bottom-[110px] left-[101px] z-10 h-[140px] w-[140px] scale-[0.7] rounded-[70px] bg-white
-                xl:bottom-auto xl:top-[553px] xl:left-[884px] xl:scale-100">
-      <div class="absolute top-[32px] left-[13px] flex h-[76px] w-[115px] flex-col items-center justify-between">
-        <span class="flex h-[40px] w-[42px] items-center justify-center text-[32px] font-extrabold leading-none text-brand-dark">18</span>
-        <span class="flex h-[40px] w-[60px] items-center justify-center text-center text-[14px] font-normal leading-[20px] text-brand-dark">Active Faculties</span>
-      </div>
-    </div>
-
-    <!-- Metric 3: 140 x 140, radius 70, #F97316, top 553, left 1032 -->
-    <div class="absolute bottom-[110px] left-[207px] z-10 h-[140px] w-[140px] scale-[0.7] rounded-[70px] bg-accent
-                xl:bottom-auto xl:top-[553px] xl:left-[1032px] xl:scale-100">
-      <div class="absolute top-[32px] left-[13px] flex h-[76px] w-[115px] flex-col items-center justify-between">
-        <span class="flex h-[40px] w-[83px] items-center justify-center text-[32px] font-extrabold leading-none text-brand-tint">&lt;48h</span>
-        <span class="flex h-[40px] w-[44px] items-center justify-center text-center text-[14px] font-normal leading-[20px] text-brand-tint">Return Cycle</span>
-      </div>
-    </div>
-
-    <!-- Frame 2 (buttons): PHONE = pinned to the bottom, side by side | DESKTOP = 536 wide, top 641 -->
-    <div class="absolute inset-x-3 bottom-3 z-10 flex gap-3 xl:inset-x-auto xl:bottom-auto xl:top-[641px] xl:left-0 xl:w-[536px] xl:gap-4 xl:p-[10px]">
-      <!-- Find An Item: 249 wide on desktop, radius 8, padding 24 / 48, #F97316 -->
-      <a href="#browse" class="flex h-[56px] flex-1 items-center justify-center rounded-lg bg-accent px-4 text-base font-semibold leading-6 text-white hover:bg-accent-dark xl:h-[72px] xl:w-[249px] xl:flex-none xl:shrink-0 xl:px-12 xl:py-6">Find An Item</a>
-
-      <!-- Report An Item: 251 wide on desktop, radius 8, 1px border #F97316 -->
-      <a href="#" class="flex h-[56px] flex-1 items-center justify-center rounded-lg border border-accent bg-white px-4 text-base font-semibold leading-6 text-[#3F4F66] hover:bg-orange-50 xl:h-[72px] xl:w-[251px] xl:flex-none xl:shrink-0 xl:px-12 xl:py-6">Report An Item</a>
-    </div>
-
-  </div>
-</section>
- 
-  <!-- How it works: 1256 wide, horizontal, padding 10, gap 16 -->
-  <section id="how-it-works" class="max-w-[1280px] mx-auto px-3 mt-10">
-  <div class="flex flex-col md:flex-row gap-4 p-[10px] w-full">
-    <!-- Card 1 (Frame 6) -->
-    <article style="background-color:#0B1F4D" class="relative isolate overflow-hidden flex w-full flex-col gap-1 rounded-[30px] pt-11 pr-6 pb-3 pl-6 md:h-[265px] xl:w-[382px] xl:flex-none">
-      <img src="images/card 1 image.jpg" alt="" style="opacity:0.2" class="absolute inset-0 -z-10 h-full w-full object-cover" />
-      <!-- Frame 1 -->
-      <div class="flex h-12 w-full items-center gap-[10px] py-1">
-        <span class="flex h-[40px] w-[36px] items-center justify-center text-center text-[32px] font-extrabold leading-none text-accent">01</span>
-      </div>
-      <!-- Heading 3 -->
-      <div class="flex w-full flex-col pt-4">
-        <h3 class="flex h-[21px] items-center text-[17px] font-bold leading-none text-brand-tint">Search for an Item</h3>
-      </div>
-      <!-- Description -->
-      <div class="flex w-full flex-col">
-        <p class="text-[15px] font-normal leading-[23px] text-brand-tint">Filter by location, category, or date lost across OAU faculties and lecture theatres.</p>
-      </div>
-      <!-- Margin + caption -->
-      <div class="flex w-full flex-col pt-6">
-        <div class="flex w-full flex-col pt-4">
-          <p class="flex h-[14px] items-center text-[11px] font-bold uppercase leading-none tracking-[0.1em] text-brand-tint">Target: Academic &amp; Residential Zones</p>
+      <div class="absolute bottom-[110px] left-[-5px] z-10 h-[140px] w-[140px] scale-[0.7] rounded-[70px] bg-brand-dark xl:bottom-auto xl:top-[553px] xl:left-[736px] xl:scale-100">
+        <div class="absolute top-[32px] left-[13px] flex h-[76px] w-[115px] flex-col items-center justify-between">
+          <span class="flex h-[40px] w-[98px] items-center justify-center text-[32px] font-extrabold leading-none text-amber-tint">1420+</span>
+          <span class="flex h-[40px] w-[76px] items-center justify-center text-center text-[14px] font-normal leading-[20px] text-amber-tint">Recovered items</span>
         </div>
       </div>
-    </article>
-    <!-- Card 2 (Frame 7): 382 wide, 265 tall, radius 30, padding 44/24/24/24, gap 4, #0D1B2E -->
-    <article style="background-color:#0D1B2E" class="relative isolate overflow-hidden flex w-full flex-col gap-1 rounded-[30px] pt-11 pr-6 pb-6 pl-6 md:h-[265px] xl:w-[385px] xl:flex-none">
-      <!-- Background photo at 20% opacity -->
-      <img src="images/card 2.jpg" alt="" style="opacity:0.2" class="absolute inset-0 -z-10 h-full w-full object-cover" />
-      <!-- Frame 1: horizontal, fill, padding 4 top/bottom, gap 10 (48 tall) -->
-      <div class="flex h-12 w-full items-center gap-[10px] py-1">
-        <!-- "02": 32px, weight 800, line height 100%, centered, #F97316, box 42 x 40 -->
-        <span class="flex h-[40px] w-[42px] items-center justify-center text-center text-[32px] font-extrabold leading-none text-accent">02</span>
-      </div>
-      <!-- Heading 3: vertical, fill, padding top 16 (37 tall) -->
-      <div class="flex w-full flex-col pt-4">
-        <!-- Title: 17px, bold 700, line height 100%, #E2ECFF, box 334 x 21 -->
-        <h3 class="flex h-[21px] items-center text-[17px] font-bold leading-none text-brand-tint">Submit a Claim</h3>
-      </div>
-      <!-- Container: vertical, fill (46 tall) -->
-      <div class="flex w-full flex-col">
-        <!-- Description: 15px, regular 400, line height 23px, #E2ECFF, box 334 x 46 -->
-        <p class="text-[15px] font-normal leading-[23px] text-brand-tint">Provide verifying details and item specifications to confirm rightful ownership.</p>
-      </div>
-      <!-- Margin: vertical, fill, padding top 24 (54 tall) -->
-      <div class="flex w-full flex-col pt-6">
-        <!-- Container: vertical, fill, padding top 16 (30 tall) -->
-        <div class="flex w-full flex-col pt-4">
-          <!-- Caption: 11px, bold 700, line height 100%, letter spacing 10%, #E2ECFF, box 334 x 14 -->
-          <p class="flex h-[14px] items-center text-[11px] font-bold uppercase leading-none tracking-[0.1em] text-brand-tint">Req: Reg Number &amp; Distinct Identifier</p>
+
+      <div class="absolute bottom-[110px] left-[101px] z-10 h-[140px] w-[140px] scale-[0.7] rounded-[70px] bg-white xl:bottom-auto xl:top-[553px] xl:left-[884px] xl:scale-100">
+        <div class="absolute top-[32px] left-[13px] flex h-[76px] w-[115px] flex-col items-center justify-between">
+          <span class="flex h-[40px] w-[42px] items-center justify-center text-[32px] font-extrabold leading-none text-brand-dark">18</span>
+          <span class="flex h-[40px] w-[60px] items-center justify-center text-center text-[14px] font-normal leading-[20px] text-brand-dark">Active Faculties</span>
         </div>
       </div>
-    </article>
-    <!-- Card 3 (Frame 8): 443 wide, 265 tall, radius 30, padding 44/24/24/24, gap 4, #2C4259 -->
-    <article style="background-color:#2C4259" class="relative isolate overflow-hidden flex w-full flex-col gap-1 rounded-[30px] pt-11 pr-6 pb-6 pl-6 md:h-[265px] xl:w-[443px] xl:flex-none">
-      <!-- Background photo at 20% opacity -->
-      <img src="images/card 3.jpg" alt="" style="opacity:0.2" class="absolute inset-0 -z-10 h-full w-full object-cover" />
-      <!-- Frame 1: horizontal, fill, padding 4 top/bottom, gap 10 (48 tall) -->
-      <div class="flex h-12 w-full items-center gap-[10px] py-1">
-        <!-- "03": 32px, weight 800, line height 100%, centered, #F97316, box 42 x 40 -->
-        <span class="flex h-[40px] w-[42px] items-center justify-center text-center text-[32px] font-extrabold leading-none text-accent">03</span>
-      </div>
-      <!-- Heading 3: vertical, fill, padding top 16 (37 tall) -->
-      <div class="flex w-full flex-col pt-4">
-        <!-- Title: 17px, bold 700, line height 100%, #E2ECFF, box 334 x 21 -->
-        <h3 class="flex h-[21px] items-center text-[17px] font-bold leading-none text-brand-tint">Arrange a Safe Return</h3>
-      </div>
-      <!-- Container: vertical, fill (46 tall) -->
-      <div class="flex w-full flex-col">
-        <!-- Description: 15px, regular 400, line height 23px, #E2ECFF, box 334 x 46 -->
-        <p class="text-[15px] font-normal leading-[23px] text-brand-tint">Meet at designated secure campus checkpoints (e.g. SUB, Security Unit, Hall Porters) for handoff.</p>
-      </div>
-      <!-- Margin: vertical, fill, padding top 24 (54 tall) -->
-      <div class="flex w-full flex-col pt-6">
-        <!-- Container: vertical, fill, padding top 16 (30 tall) -->
-        <div class="flex w-full flex-col pt-4">
-          <!-- Caption: 11px, bold 700, line height 100%, letter spacing 10%, #E2ECFF, box 334 x 14 -->
-          <p class="flex h-[14px] items-center text-[11px] font-bold uppercase leading-none tracking-[0.1em] text-brand-tint">Safe Checkpoint: OAU security / porter</p>
+
+      <div class="absolute bottom-[110px] left-[207px] z-10 h-[140px] w-[140px] scale-[0.7] rounded-[70px] bg-accent xl:bottom-auto xl:top-[553px] xl:left-[1032px] xl:scale-100">
+        <div class="absolute top-[32px] left-[13px] flex h-[76px] w-[115px] flex-col items-center justify-between">
+          <span class="flex h-[40px] w-[83px] items-center justify-center text-[32px] font-extrabold leading-none text-brand-tint">&lt;48h</span>
+          <span class="flex h-[40px] w-[44px] items-center justify-center text-center text-[14px] font-normal leading-[20px] text-brand-tint">Return Cycle</span>
         </div>
       </div>
-    </article>
-  </div>
+
+      <div class="absolute inset-x-3 bottom-3 z-10 flex gap-3 xl:inset-x-auto xl:bottom-auto xl:top-[641px] xl:left-0 xl:w-[536px] xl:gap-4 xl:p-[10px]">
+        <a href="#browse" class="flex h-[56px] flex-1 items-center justify-center rounded-lg bg-accent px-4 text-base font-semibold leading-6 text-white hover:bg-accent-dark xl:h-[72px] xl:w-[249px] xl:flex-none xl:shrink-0 xl:px-12 xl:py-6">Find An Item</a>
+        <a href="#" class="flex h-[56px] flex-1 items-center justify-center rounded-lg border border-accent bg-white px-4 text-base font-semibold leading-6 text-[#3F4F66] hover:bg-orange-50 xl:h-[72px] xl:w-[251px] xl:flex-none xl:shrink-0 xl:px-12 xl:py-6">Report An Item</a>
+      </div>
+    </div>
   </section>
-  <!-- Section 3: RECENT LOST & FOUND Figma: vertical, fixed width 1254, hug height, padding 24/8/24/8, gap 24 -->
-  <section id="browse" class="mx-auto flex w-full max-w-[1254px] flex-col gap-6 px-2 py-6">
-    <!-- Frame 16: horizontal, fill (1238), hug height (73), space-between, padding left/right 10 -->
-    <div class="flex w-full items-center justify-between px-[10px]">
-      <!-- Frame 17: vertical, fill (1218), hug height (73), gap 8 -->
-      <div class="flex w-full flex-col gap-2">
-        <!-- Heading 2: vertical, fill, hug height (40) -->
+ 
+  <section id="how-it-works" class="max-w-[1280px] mx-auto px-3 mt-10">
+    <div class="flex flex-col md:flex-row gap-4 p-[10px] w-full">
+      <article class="bg-brand-dark relative isolate overflow-hidden flex w-full flex-col gap-1 rounded-[30px] pt-11 pr-6 pb-3 pl-6 md:h-[265px] xl:w-[382px] xl:flex-none">
+        <img src="images/card 1 image.jpg" alt="" class="opacity-20 absolute inset-0 -z-10 h-full w-full object-cover" />
+        <div class="flex h-12 w-full items-center gap-[10px] py-1">
+          <span class="flex h-[40px] w-[36px] items-center justify-center text-center text-[32px] font-extrabold leading-none text-accent">01</span>
+        </div>
+        <div class="flex w-full flex-col pt-4">
+          <h3 class="flex h-[21px] items-center text-[17px] font-bold leading-none text-brand-tint">Search for an Item</h3>
+        </div>
         <div class="flex w-full flex-col">
-          <!-- Text: Plus Jakarta Sans, ExtraBold 800, 32px, line height 100%, spacing 0%, #151C25 -->
+          <p class="text-[15px] font-normal leading-[23px] text-brand-tint">Filter by location, category, or date lost across OAU faculties and lecture theatres.</p>
+        </div>
+        <div class="flex w-full flex-col pt-6">
+          <div class="flex w-full flex-col pt-4">
+            <p class="flex h-[14px] items-center text-[11px] font-bold uppercase leading-none tracking-[0.1em] text-brand-tint">Target: Academic &amp; Residential Zones</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="bg-[#0D1B2E] relative isolate overflow-hidden flex w-full flex-col gap-1 rounded-[30px] pt-11 pr-6 pb-6 pl-6 md:h-[265px] xl:w-[385px] xl:flex-none">
+        <img src="images/card 2.jpg" alt="" class="opacity-20 absolute inset-0 -z-10 h-full w-full object-cover" />
+        <div class="flex h-12 w-full items-center gap-[10px] py-1">
+          <span class="flex h-[40px] w-[42px] items-center justify-center text-center text-[32px] font-extrabold leading-none text-accent">02</span>
+        </div>
+        <div class="flex w-full flex-col pt-4">
+          <h3 class="flex h-[21px] items-center text-[17px] font-bold leading-none text-brand-tint">Submit a Claim</h3>
+        </div>
+        <div class="flex w-full flex-col">
+          <p class="text-[15px] font-normal leading-[23px] text-brand-tint">Provide verifying details and item specifications to confirm rightful ownership.</p>
+        </div>
+        <div class="flex w-full flex-col pt-6">
+          <div class="flex w-full flex-col pt-4">
+            <p class="flex h-[14px] items-center text-[11px] font-bold uppercase leading-none tracking-[0.1em] text-brand-tint">Req: Reg Number &amp; Distinct Identifier</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="bg-[#2C4259] relative isolate overflow-hidden flex w-full flex-col gap-1 rounded-[30px] pt-11 pr-6 pb-6 pl-6 md:h-[265px] xl:w-[443px] xl:flex-none">
+        <img src="images/card 3.jpg" alt="" class="opacity-20 absolute inset-0 -z-10 h-full w-full object-cover" />
+        <div class="flex h-12 w-full items-center gap-[10px] py-1">
+          <span class="flex h-[40px] w-[42px] items-center justify-center text-center text-[32px] font-extrabold leading-none text-accent">03</span>
+        </div>
+        <div class="flex w-full flex-col pt-4">
+          <h3 class="flex h-[21px] items-center text-[17px] font-bold leading-none text-brand-tint">Arrange a Safe Return</h3>
+        </div>
+        <div class="flex w-full flex-col">
+          <p class="text-[15px] font-normal leading-[23px] text-brand-tint">Meet at designated secure campus checkpoints (e.g. SUB, Security Unit, Hall Porters) for handoff.</p>
+        </div>
+        <div class="flex w-full flex-col pt-6">
+          <div class="flex w-full flex-col pt-4">
+            <p class="flex h-[14px] items-center text-[11px] font-bold uppercase leading-none tracking-[0.1em] text-brand-tint">Safe Checkpoint: OAU security / porter</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="browse" class="mx-auto flex w-full max-w-[1254px] flex-col gap-6 px-2 py-6">
+    <div class="flex w-full items-center justify-between px-[10px]">
+      <div class="flex w-full flex-col gap-2">
+        <div class="flex w-full flex-col">
           <h2 class="flex h-[40px] items-center text-[32px] font-extrabold leading-none tracking-normal text-[#151C25]">Recent Lost &amp; Found Items</h2>
         </div>
-        <!-- Container: vertical, fill, hug height (25) -->
         <div class="flex w-full flex-col">
-          <!-- Text: SemiBold 600, 16px, line height 25px, spacing 0%, #45464C -->
           <p class="text-[16px] font-semibold leading-[25px] text-[#45464C]">Recently logged items around OAU campus.</p>
         </div>
       </div>
     </div>
-    <!-- Cards -->
+
     <div id="items" class="flex snap-x snap-mandatory gap-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-    <!-- Card: vertical, fixed 296 x 432, radius 30, border 1px #7B8798, padding 12/12/24/12, gap 24, bg #2057E0 -->
-    <article class="snap-start flex h-[432px] w-[296px] shrink-0 flex-col gap-6 rounded-[30px] border border-[#7B8798] bg-[#2057E0] px-3 pt-3 pb-6">
-      <!-- Frame 14: vertical, fill, 193 tall, padding 8/4/8/4 -->
-      <div class="flex h-[193px] w-full flex-col px-1 py-2">
-        <!-- Image: 270 x 177, radius 30 -->
-        <img src="images/card 4.jpg" alt="OAU Student ID Card and wallet" class="h-[177px] w-full rounded-[30px] object-cover" />
-      </div>
-      <!-- Text group: status row 33 + title 42 + location 20 + two 8px gaps = 111 -->
-      <div class="flex w-full flex-col px-1">
-        <!-- Status Pill: horizontal, fill, space-between -->
-        <div class="flex w-full items-center justify-between">
-          <!-- Background: padding 4/8, #0D1B2E -->
-          <div class="bg-[#0D1B2E] px-2 py-1">
-            <!-- LOST: 16px, 600, line height 25px, white -->
-            <span class="block text-[16px] font-semibold leading-[25px] text-white">LOST</span>
+      <article class="snap-start flex h-[432px] w-[296px] shrink-0 flex-col gap-6 rounded-[30px] border border-[#7B8798] bg-brand px-3 pt-3 pb-6">
+        <div class="flex h-[193px] w-full flex-col px-1 py-2">
+          <img src="images/card 4.jpg" alt="OAU Student ID Card and wallet" class="h-[177px] w-full rounded-[30px] object-cover" />
         </div>
-        <!-- Time: 11px, bold 700, line height 100%, letter spacing 10%, #E2ECFF -->
-        <span class="text-[11px] font-bold leading-none tracking-[0.1em] text-[#E2ECFF]">2 hours ago</span>
-      </div>
-      <!-- Heading 3: padding top 8, fill, 42 tall (two lines of 21) -->
-      <div class="min-h-[50px] w-full pt-2">
-        <!-- Title: 17px, bold 700, white -->
-        <h3 class="text-[17px] font-bold leading-[21px] text-white">OAU Student ID Card &amp; Pocket Wallet</h3>
-      </div>
-      <!-- Location row: horizontal, fill, gap 8, 20 tall -->
-      <div class="flex w-full items-center gap-2 pt-2">
-        <!-- Pin icon: 10.67 x 13.33, #E2ECFF -->
-        <svg class="h-[13.33px] w-[10.67px] shrink-0 text-[#E2ECFF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>
-        </svg>
-        <!-- Location: 14px, 600, line height 20px, #E2ECFF -->
-        <span class="text-[14px] font-semibold leading-[20px] text-[#E2ECFF]">Amphitheatre / Oduduwa Hall area</span>
-      </div>
-    </div>
-    <!-- Link: centers the button -->
-    <div class="mt-auto flex w-full justify-center gap-1">
-      <!-- Button: padding 12/48, radius 8, #F97316, 44 tall -->
-      <a href="#" class="rounded-lg bg-[#F97316] px-12 py-3"><span class="block text-[14px] font-semibold leading-[20px] text-white">View Details</span></a>
-    </div>
-    </article>
-    <article class="snap-start flex h-[432px] w-[296px] shrink-0 flex-col gap-6 rounded-[30px] border border-[#7B8798] bg-[#2057E0] px-3 pt-3 pb-6">
-      <!-- Frame 14: vertical, fill, 193 tall, padding 8/4/8/4 -->
-      <div class="flex h-[193px] w-full flex-col px-1 py-2">
-        <!-- Image: 270 x 177, radius 30 -->
-        <img src="images/card 5.jpg" alt="Casio fx-991ES Plus" class="h-[177px] w-full rounded-[30px] object-cover" />
-      </div>
-      <!-- Text group: status row 33 + title 42 + location 20 + two 8px gaps = 111 -->
-      <div class="flex w-full flex-col px-1">
-        <!-- Status Pill: horizontal, fill, space-between -->
-        <div class="flex w-full items-center justify-between">
-          <!-- Background: padding 4/8, #0D1B2E -->
-          <div class="bg-[#0D1B2E] px-2 py-1">
-            <!-- LOST: 16px, 600, line height 25px, white -->
-            <span class="block text-[16px] font-semibold leading-[25px] text-white">LOST</span>
+        <div class="flex w-full flex-col px-1">
+          <div class="flex w-full items-center justify-between">
+            <div class="bg-[#0D1B2E] px-2 py-1">
+              <span class="block text-[16px] font-semibold leading-[25px] text-white">LOST</span>
+            </div>
+            <span class="text-[11px] font-bold leading-none tracking-[0.1em] text-brand-tint">2 hours ago</span>
+          </div>
+          <div class="min-h-[50px] w-full pt-2">
+            <h3 class="text-[17px] font-bold leading-[21px] text-white">OAU Student ID Card &amp; Pocket Wallet</h3>
+          </div>
+          <div class="flex w-full items-center gap-2 pt-2">
+            <svg class="h-[13.33px] w-[10.67px] shrink-0 text-brand-tint" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>
+            </svg>
+            <span class="text-[14px] font-semibold leading-[20px] text-brand-tint">Amphitheatre / Oduduwa Hall area</span>
+          </div>
         </div>
-        <!-- Time: 11px, bold 700, line height 100%, letter spacing 10%, #E2ECFF -->
-        <span class="text-[11px] font-bold leading-none tracking-[0.1em] text-[#E2ECFF]">2 hours ago</span>
-      </div>
-      <!-- Heading 3: padding top 8, fill, 42 tall (two lines of 21) -->
-      <div class="min-h-[50px] w-full pt-2">
-        <!-- Title: 17px, bold 700, white -->
-        <h3 class="text-[17px] font-bold leading-[21px] text-white">Casio fx-991ES Plus (Missing from BOOC row 6)</h3>
-      </div>
-      <!-- Location row: horizontal, fill, gap 8, 20 tall -->
-      <div class="flex w-full items-center gap-2 pt-2">
-        <!-- Pin icon: 10.67 x 13.33, #E2ECFF -->
-        <svg class="h-[13.33px] w-[10.67px] shrink-0 text-[#E2ECFF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>
-        </svg>
-        <!-- Location: 14px, 600, line height 20px, #E2ECFF -->
-        <span class="text-[14px] font-semibold leading-[20px] text-[#E2ECFF]">Faculty of Technology</span>
-      </div>
-    </div>
-    <!-- Link: centers the button -->
-    <div class="mt-auto flex w-full justify-center gap-1">
-      <!-- Button: padding 12/48, radius 8, #F97316, 44 tall -->
-      <a href="#" class="rounded-lg bg-[#F97316] px-12 py-3"><span class="block text-[14px] font-semibold leading-[20px] text-white">View Details</span></a>
-    </div>
-    </article>
-    <article class="snap-start flex h-[432px] w-[296px] shrink-0 flex-col gap-6 rounded-[30px] border border-[#7B8798] bg-[#2057E0] px-3 pt-3 pb-6">
-      <!-- Frame 14: vertical, fill, 193 tall, padding 8/4/8/4 -->
-      <div class="flex h-[193px] w-full flex-col px-1 py-2">
-        <!-- Image: 270 x 177, radius 30 -->
-        <img src="images/card 6.jpg" alt="Black Sharp Scientific Calculator EL-W531TH" class="h-[177px] w-full rounded-[30px] object-cover" />
-      </div>
-      <!-- Text group: status row 33 + title 42 + location 20 + two 8px gaps = 111 -->
-      <div class="flex w-full flex-col px-1">
-        <!-- Status Pill: horizontal, fill, space-between -->
-        <div class="flex w-full items-center justify-between">
-          <!-- Background: padding 4/8, #0D1B2E -->
-          <div class="bg-[#0D1B2E] px-2 py-1">
-            <!-- LOST: 16px, 600, line height 25px, white -->
-            <span class="block text-[16px] font-semibold leading-[25px] text-white">LOST</span>
+        <div class="mt-auto flex w-full justify-center gap-1">
+          <a href="#" class="rounded-lg bg-accent px-12 py-3"><span class="block text-[14px] font-semibold leading-[20px] text-white">View Details</span></a>
         </div>
-        <!-- Time: 11px, bold 700, line height 100%, letter spacing 10%, #E2ECFF -->
-        <span class="text-[11px] font-bold leading-none tracking-[0.1em] text-[#E2ECFF]">2 hours ago</span>
-      </div>
-      <!-- Heading 3: padding top 8, fill, 42 tall (two lines of 21) -->
-      <div class="min-h-[50px] w-full pt-2">
-        <!-- Title: 17px, bold 700, white -->
-        <h3 class="text-[17px] font-bold leading-[21px] text-white">Black Sharp Scientific Calculator EL-W531TH</h3>
-      </div>
-      <!-- Location row: horizontal, fill, gap 8, 20 tall -->
-      <div class="flex w-full items-center gap-2 pt-2">
-        <!-- Pin icon: 10.67 x 13.33, #E2ECFF -->
-        <svg class="h-[13.33px] w-[10.67px] shrink-0 text-[#E2ECFF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>
-        </svg>
-        <!-- Location: 14px, 600, line height 20px, #E2ECFF -->
-        <span class="text-[14px] font-semibold leading-[20px] text-[#E2ECFF]">White House</span>
-      </div>
-    </div>
-    <!-- Link: centers the button -->
-    <div class="mt-auto flex w-full justify-center gap-1">
-      <!-- Button: padding 12/48, radius 8, #F97316, 44 tall -->
-      <a href="#" class="rounded-lg bg-[#F97316] px-12 py-3"><span class="block text-[14px] font-semibold leading-[20px] text-white">View Details</span></a>
-    </div>
-    </article>
-    <article class="snap-start flex h-[432px] w-[296px] shrink-0 flex-col gap-6 rounded-[30px] border border-[#7B8798] bg-[#2057E0] px-3 pt-3 pb-6">
-      <!-- Frame 14: vertical, fill, 193 tall, padding 8/4/8/4 -->
-      <div class="flex h-[193px] w-full flex-col px-1 py-2">
-        <!-- Image: 270 x 177, radius 30 -->
-        <img src="images/card 7.jpg" alt="Power Bank, 50k MAH" class="h-[177px] w-full rounded-[30px] object-cover" />
-      </div>
-      <!-- Text group: status row 33 + title 42 + location 20 + two 8px gaps = 111 -->
-      <div class="flex w-full flex-col px-1">
-        <!-- Status Pill: horizontal, fill, space-between -->
-        <div class="flex w-full items-center justify-between">
-          <!-- Background: padding 4/8, #0D1B2E -->
-          <div class="bg-[#0D1B2E] px-2 py-1">
-            <!-- LOST: 16px, 600, line height 25px, white -->
-            <span class="block text-[16px] font-semibold leading-[25px] text-white">LOST</span>
+      </article>
+
+      <article class="snap-start flex h-[432px] w-[296px] shrink-0 flex-col gap-6 rounded-[30px] border border-[#7B8798] bg-brand px-3 pt-3 pb-6">
+        <div class="flex h-[193px] w-full flex-col px-1 py-2">
+          <img src="images/card 5.jpg" alt="Casio fx-991ES Plus" class="h-[177px] w-full rounded-[30px] object-cover" />
         </div>
-        <!-- Time: 11px, bold 700, line height 100%, letter spacing 10%, #E2ECFF -->
-        <span class="text-[11px] font-bold leading-none tracking-[0.1em] text-[#E2ECFF]">2 hours ago</span>
-      </div>
-      <!-- Heading 3: padding top 8, fill, 42 tall (two lines of 21) -->
-      <div class="min-h-[50px] w-full pt-2">
-        <!-- Title: 17px, bold 700, white -->
-        <h3 class="text-[17px] font-bold leading-[21px] text-white">Power Bank, 50k MAH</h3>
-      </div>
-      <!-- Location row: horizontal, fill, gap 8, 20 tall -->
-      <div class="flex w-full items-center gap-2 pt-2">
-        <!-- Pin icon: 10.67 x 13.33, #E2ECFF -->
-        <svg class="h-[13.33px] w-[10.67px] shrink-0 text-[#E2ECFF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>
-        </svg>
-        <!-- Location: 14px, 600, line height 20px, #E2ECFF -->
-        <span class="text-[14px] font-semibold leading-[20px] text-[#E2ECFF]">BOOC</span>
-      </div>
-    </div>
-    <!-- Link: centers the button -->
-    <div class="mt-auto flex w-full justify-center gap-1">
-      <!-- Button: padding 12/48, radius 8, #F97316, 44 tall -->
-      <a href="#" class="rounded-lg bg-[#F97316] px-12 py-3"><span class="block text-[14px] font-semibold leading-[20px] text-white">View Details</span></a>
-    </div>
-    </article>
+        <div class="flex w-full flex-col px-1">
+          <div class="flex w-full items-center justify-between">
+            <div class="bg-[#0D1B2E] px-2 py-1">
+              <span class="block text-[16px] font-semibold leading-[25px] text-white">LOST</span>
+            </div>
+            <span class="text-[11px] font-bold leading-none tracking-[0.1em] text-brand-tint">2 hours ago</span>
+          </div>
+          <div class="min-h-[50px] w-full pt-2">
+            <h3 class="text-[17px] font-bold leading-[21px] text-white">Casio fx-991ES Plus (Missing from BOOC row 6)</h3>
+          </div>
+          <div class="flex w-full items-center gap-2 pt-2">
+            <svg class="h-[13.33px] w-[10.67px] shrink-0 text-brand-tint" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>
+            </svg>
+            <span class="text-[14px] font-semibold leading-[20px] text-brand-tint">Faculty of Technology</span>
+          </div>
+        </div>
+        <div class="mt-auto flex w-full justify-center gap-1">
+          <a href="#" class="rounded-lg bg-accent px-12 py-3"><span class="block text-[14px] font-semibold leading-[20px] text-white">View Details</span></a>
+        </div>
+      </article>
+
+      <article class="snap-start flex h-[432px] w-[296px] shrink-0 flex-col gap-6 rounded-[30px] border border-[#7B8798] bg-brand px-3 pt-3 pb-6">
+        <div class="flex h-[193px] w-full flex-col px-1 py-2">
+          <img src="images/card 6.jpg" alt="Black Sharp Scientific Calculator EL-W531TH" class="h-[177px] w-full rounded-[30px] object-cover" />
+        </div>
+        <div class="flex w-full flex-col px-1">
+          <div class="flex w-full items-center justify-between">
+            <div class="bg-[#0D1B2E] px-2 py-1">
+              <span class="block text-[16px] font-semibold leading-[25px] text-white">LOST</span>
+            </div>
+            <span class="text-[11px] font-bold leading-none tracking-[0.1em] text-brand-tint">2 hours ago</span>
+          </div>
+          <div class="min-h-[50px] w-full pt-2">
+            <h3 class="text-[17px] font-bold leading-[21px] text-white">Black Sharp Scientific Calculator EL-W531TH</h3>
+          </div>
+          <div class="flex w-full items-center gap-2 pt-2">
+            <svg class="h-[13.33px] w-[10.67px] shrink-0 text-brand-tint" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>
+            </svg>
+            <span class="text-[14px] font-semibold leading-[20px] text-brand-tint">White House</span>
+          </div>
+        </div>
+        <div class="mt-auto flex w-full justify-center gap-1">
+          <a href="#" class="rounded-lg bg-accent px-12 py-3"><span class="block text-[14px] font-semibold leading-[20px] text-white">View Details</span></a>
+        </div>
+      </article>
+
+      <article class="snap-start flex h-[432px] w-[296px] shrink-0 flex-col gap-6 rounded-[30px] border border-[#7B8798] bg-brand px-3 pt-3 pb-6">
+        <div class="flex h-[193px] w-full flex-col px-1 py-2">
+          <img src="images/card 7.jpg" alt="Power Bank, 50k MAH" class="h-[177px] w-full rounded-[30px] object-cover" />
+        </div>
+        <div class="flex w-full flex-col px-1">
+          <div class="flex w-full items-center justify-between">
+            <div class="bg-[#0D1B2E] px-2 py-1">
+              <span class="block text-[16px] font-semibold leading-[25px] text-white">LOST</span>
+            </div>
+            <span class="text-[11px] font-bold leading-none tracking-[0.1em] text-brand-tint">2 hours ago</span>
+          </div>
+          <div class="min-h-[50px] w-full pt-2">
+            <h3 class="text-[17px] font-bold leading-[21px] text-white">Power Bank, 50k MAH</h3>
+          </div>
+          <div class="flex w-full items-center gap-2 pt-2">
+            <svg class="h-[13.33px] w-[10.67px] shrink-0 text-brand-tint" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>
+            </svg>
+            <span class="text-[14px] font-semibold leading-[20px] text-brand-tint">BOOC</span>
+          </div>
+        </div>
+        <div class="mt-auto flex w-full justify-center gap-1">
+          <a href="#" class="rounded-lg bg-accent px-12 py-3"><span class="block text-[14px] font-semibold leading-[20px] text-white">View Details</span></a>
+        </div>
+      </article>
     </div>
     <div id="dots" class="mt-4 flex h-[20px] w-full items-center justify-center gap-4"></div>
   </section>
-  <!-- Section 4: HAVING ISSUE WITH LOST ITEM Figma: 1228 x 446, radius 30, bg color/brand #2057E0 -->
+
   <section id="report" class="px-3 pb-10 pt-4">
-  <div class="mx-auto flex min-h-[446px] w-full max-w-[1228px] flex-col items-center justify-center gap-6 rounded-[30px] bg-[#2057E0] px-6 py-16 md:h-[446px] md:py-0">
-    <!-- Text block (Frame 1 vertical, hug 534 x 82, gap 8) -->
-    <div class="flex w-full max-w-[534px] flex-col items-center gap-2">
-      <!-- Frame 1: horizontal, hug 221 x 40, gap 10 -->
-      <div class="flex items-center gap-[10px]">
-        <!-- "Having Issue ?": 32px, ExtraBold 800, line height 100%, #E2ECFF -->
-        <h2 class="text-[26px] font-extrabold leading-none text-[#E2ECFF] sm:text-[32px]">Having Issue ?</h2>
-      </div>
-      <!-- Frame 3: horizontal, hug 534 x 34, gap 10 -->
-      <div class="flex items-center gap-[10px]">
-        <!-- Subtext: 22px, Regular 400, line height 34px, centered, #E2ECFF -->
-        <p class="text-center text-[18px] font-normal leading-[28px] text-[#E2ECFF] sm:text-[22px] sm:leading-[34px]">Couldn't get your lost item and it was posted here?</p>
-      </div>
-    </div>
-    <!-- Frame 2 (button): horizontal, hug 192 x 60, radius 8, padding 14/48/14/48, gap 10, #F97316 -->
-    <a href="#" class="flex h-[60px] items-center gap-[10px] rounded-lg bg-[#F97316] px-12 py-[14px]"><span class="block text-[16px] font-semibold leading-[24px] text-white">Report Case</span></a>
-  </div>
-  </section>
-  <footer id="about" class="mx-auto flex w-full max-w-[1284px] flex-col gap-[10px] bg-white p-[10px]">
-  <div class="flex w-full flex-col overflow-hidden bg-[#2057E0] py-10 md:min-h-[496px]">
-    <div class="mx-auto flex w-full max-w-[1280px] flex-col gap-10 px-6 sm:px-8">
-      <div class="flex w-full flex-col gap-6 md:flex-row">
-        <div class="flex w-full flex-col pb-[6px] md:flex-1">
-          <div class="flex w-full max-w-[320px] flex-col">
-            <p class="text-[14px] font-normal leading-[20px] text-white">A community lost-and-found utility dedicated to Obafemi Awolowo University, Ile-Ife, Osun State, Nigeria.</p>
-          </div>
-          <div class="flex w-full flex-col pt-4">
-            <div class="flex w-full flex-col">
-              <p class="font-['Inter'] text-[11px] font-medium leading-[14px] tracking-[0.44px] text-[#0B1F4D]">COORDINATES: 7.5186° N, 4.5255° E</p>
-            </div>
-          </div>
+    <div class="mx-auto flex min-h-[446px] w-full max-w-[1228px] flex-col items-center justify-center gap-6 rounded-[30px] bg-brand px-6 py-16 md:h-[446px] md:py-0">
+      <div class="flex w-full max-w-[534px] flex-col items-center gap-2">
+        <div class="flex items-center gap-[10px]">
+          <h2 class="text-[26px] font-extrabold leading-none text-brand-tint sm:text-[32px]">Having Issue ?</h2>
         </div>
-        <!-- Right-side group: holds Col 2 and Col 3. The gap and right padding are estimated from your screenshot, since no panel gave them -->
-        <div class="contents">
+        <div class="flex items-center gap-[10px]">
+          <p class="text-center text-[18px] font-normal leading-[28px] text-brand-tint sm:text-[22px] sm:leading-[34px]">Couldn't get your lost item and it was posted here?</p>
+        </div>
+      </div>
+      <a href="#" class="flex h-[60px] items-center gap-[10px] rounded-lg bg-accent px-12 py-[14px]"><span class="block text-[16px] font-semibold leading-[24px] text-white">Report Case</span></a>
+    </div>
+  </section>
 
-          <!-- Col 2: Quick Navigation. vertical, fill, hug height (140) -->
-          <div class="flex w-full flex-col md:flex-1 md:items-end">
-
-            <!-- Margin: vertical, fixed 134 wide, hug height (36), padding bottom 16 -->
-            <div class="flex w-[134px] flex-col pb-4">
-              <!-- Container: vertical, fill (134), hug height (20) -->
+  <footer id="about" class="mx-auto flex w-full max-w-[1284px] flex-col gap-[10px] bg-white p-[10px]">
+    <div class="flex w-full flex-col overflow-hidden bg-brand py-10 md:min-h-[496px]">
+      <div class="mx-auto flex w-full max-w-[1280px] flex-col gap-10 px-6 sm:px-8">
+        <div class="flex w-full flex-col gap-6 md:flex-row">
+          <div class="flex w-full flex-col pb-[6px] md:flex-1">
+            <div class="flex w-full max-w-[320px] flex-col">
+              <p class="text-[14px] font-normal leading-[20px] text-white">A community lost-and-found utility dedicated to Obafemi Awolowo University, Ile-Ife, Osun State, Nigeria.</p>
+            </div>
+            <div class="flex w-full flex-col pt-4">
               <div class="flex w-full flex-col">
-                <!-- QUICK NAVIGATION: Plus Jakarta Sans, SemiBold 600, 14px, line height 20px, #FFFFFF, box 136 x 20 -->
-                <h4 class="whitespace-nowrap text-[14px] font-semibold leading-[20px] text-white">QUICK NAVIGATION</h4>
+                <p class="font-inter text-[11px] font-medium leading-[14px] tracking-[0.44px] text-brand-dark">COORDINATES: 7.5186° N, 4.5255° E</p>
               </div>
             </div>
-
-            <!-- List: vertical, fixed 134 wide, hug height (104), gap 8 -->
-            <ul class="flex w-[134px] flex-col gap-2">
-              <!-- Item: vertical, fill (134), hug height (20).
-                    Text: Plus Jakarta Sans, Regular 400, 14px, line height 20px, #0B1F4D -->
-              <li class="flex w-full flex-col">
-                <a href="#how-it-works" class="text-[14px] font-normal leading-[20px] text-[#0B1F4D] hover:underline">How It Works</a></li>
-              <li class="flex w-full flex-col">
-                <a href="#recent" class="text-[14px] font-normal leading-[20px] text-[#0B1F4D] hover:underline">Browse Items</a></li>
-              <li class="flex w-full flex-col">
-                <a href="#report" class="text-[14px] font-normal leading-[20px] text-[#0B1F4D] hover:underline">Report Lost</a></li>
-              <li class="flex w-full flex-col">
-                <a href="#report" class="text-[14px] font-normal leading-[20px] text-[#0B1F4D] hover:underline">Report Found</a></li>
-            </ul>
           </div>
-          <!-- Col 4: Support & Safety. vertical, FIXED 243 wide, hug height (140) -->
-          <div class="flex w-full flex-col md:w-[243px] md:flex-none md:pl-[46px]">
+          
+          <div class="contents">
+            <div class="flex w-full flex-col md:flex-1 md:items-end">
+              <div class="flex w-[134px] flex-col pb-4">
+                <div class="flex w-full flex-col">
+                  <h4 class="whitespace-nowrap text-[14px] font-semibold leading-[20px] text-white">QUICK NAVIGATION</h4>
+                </div>
+              </div>
 
-            <!-- Margin: vertical, fixed 197 wide, hug height (36), padding bottom 16 -->
-            <div class="flex w-[197px] flex-col pb-4">
-              <!-- Container: vertical, fill (197), hug height (20) -->
-              <div class="flex w-full flex-col">
-                <!-- SUPPORT & SAFETY: Plus Jakarta Sans, SemiBold 600, 14px, line height 20px, #FFFFFF, box 197 x 20 -->
-                <h4 class="whitespace-nowrap text-[14px] font-semibold leading-[20px] text-white">SUPPORT &amp; SAFETY</h4>
-               </div>
+              <ul class="flex w-[134px] flex-col gap-2">
+                <li class="flex w-full flex-col">
+                  <a href="#how-it-works" class="text-[14px] font-normal leading-[20px] text-brand-dark hover:underline">How It Works</a></li>
+                <li class="flex w-full flex-col">
+                  <a href="#recent" class="text-[14px] font-normal leading-[20px] text-brand-dark hover:underline">Browse Items</a></li>
+                <li class="flex w-full flex-col">
+                  <a href="#report" class="text-[14px] font-normal leading-[20px] text-brand-dark hover:underline">Report Lost</a></li>
+                <li class="flex w-full flex-col">
+                  <a href="#report" class="text-[14px] font-normal leading-[20px] text-brand-dark hover:underline">Report Found</a></li>
+              </ul>
             </div>
 
-            <!-- List: vertical, fixed 197 wide, hug height (104), gap 8 -->
-            <ul class="flex w-[197px] flex-col gap-2">
-              <!-- Item: vertical, fill (197), hug (20).
-              Text: Plus Jakarta Sans, Regular 400, 14px, line height 20px, #0B1F4D -->
-              <li class="flex w-full flex-col"><a href="#" class="text-[14px] font-normal leading-[20px] text-[#0B1F4D] hover:underline">Verification Guidelines</a></li>
-              <li class="flex w-full flex-col"><a href="#" class="text-[14px] font-normal leading-[20px] text-[#0B1F4D] hover:underline">Campus Security Contact</a></li>
-              <li class="flex w-full flex-col"><a href="#" class="text-[14px] font-normal leading-[20px] text-[#0B1F4D] hover:underline">Safety Tips</a></li>
-              <li class="flex w-full flex-col"><a href="#" class="text-[14px] font-normal leading-[20px] text-[#0B1F4D] hover:underline">Terms of Service</a></li>
-            </ul>
+            <div class="flex w-full flex-col md:w-[243px] md:flex-none md:pl-[46px]">
+              <div class="flex w-[197px] flex-col pb-4">
+                <div class="flex w-full flex-col">
+                  <h4 class="whitespace-nowrap text-[14px] font-semibold leading-[20px] text-white">SUPPORT &amp; SAFETY</h4>
+                </div>
+              </div>
+
+              <ul class="flex w-[197px] flex-col gap-2">
+                <li class="flex w-full flex-col"><a href="#" class="text-[14px] font-normal leading-[20px] text-brand-dark hover:underline">Verification Guidelines</a></li>
+                <li class="flex w-full flex-col"><a href="#" class="text-[14px] font-normal leading-[20px] text-brand-dark hover:underline">Campus Security Contact</a></li>
+                <li class="flex w-full flex-col"><a href="#" class="text-[14px] font-normal leading-[20px] text-brand-dark hover:underline">Safety Tips</a></li>
+                <li class="flex w-full flex-col"><a href="#" class="text-[14px] font-normal leading-[20px] text-brand-dark hover:underline">Terms of Service</a></li>
+              </ul>
+            </div>
           </div>
         </div>
-       </div>
-      <div class="order-first flex w-full items-center justify-center whitespace-nowrap p-4 md:h-[176px]">
-        <span class="select-none text-[13vw] font-extrabold uppercase leading-none tracking-[0.6px] text-black/30 xl:text-[200px]">Back2Owner</span>
+
+        <div class="order-first flex w-full items-center justify-center whitespace-nowrap p-4 md:h-[176px]">
+          <span class="select-none text-[13vw] font-extrabold uppercase leading-none tracking-[0.6px] text-black/30 xl:text-[200px]">Back2Owner</span>
+        </div>
       </div>
     </div>
-  </div>
   </footer>
+
   <script>
     const menuBtn = document.getElementById("menu-btn");
     const mobileMenu = document.getElementById("mobile-menu");
