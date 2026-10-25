@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verify Your Email | Back2Owner</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { DEFAULT: "#2057E0", tint: "#E2ECFF", dark: "#0B1F4D" },
+            accent: { DEFAULT: "#F97316", dark: "#EA580C" },
+            canvas: "#EEF2F8",
+          },
+          fontFamily: { sans: ['"Plus Jakarta Sans"', "sans-serif"] },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+
+<!-- Main: fill 1280, 870 tall, color/canvas #EEF2F8 -->
+<body class="font-sans text-slate-900 bg-canvas"> 
+  <main class="relative isolate mx-auto w-full max-w-[1280px] overflow-hidden bg-canvas xl:h-[870px]">
+
+    <!-- ART (one exported image of everything except the card).
+    PHONE ONLY: blue panel at the bottom (plain colour, rounded top corners) -->
+    <div class="absolute inset-x-0 bottom-0 -z-20 h-[420px] rounded-t-[40px] bg-[#2057E0] xl:hidden"></div>
+      <!-- DESKTOP ONLY: Rectangle 2 (exported) -->
+      <img src="images/Rectangle 2.svg" alt="" class="absolute -z-20 hidden h-[865px] w-[1387px] max-w-none left-[-53px] top-[101px] xl:block">
+      <!-- Illustration: small and bottom-centred on phones, exact Figma position from xl up -->
+      <img src="images/girl2.png" alt="" class="absolute -z-10 max-w-none bottom-0 left-1/2 h-[300px] w-auto -translate-x-[70%] xl:bottom-auto xl:left-[-24px] xl:top-[-40px] xl:h-[928px] xl:w-[1662px] xl:translate-x-0">
+
+    <!-- Container: horizontal, space-between, padding 40 / 32 / 40 / 52.
+         PHONE: card on top, empty space below it for the art -->
+    <div class="flex min-h-screen w-full items-start justify-center px-4 pt-8 pb-[400px]
+                xl:min-h-0 xl:h-[870px] xl:items-center xl:justify-between xl:pt-10 xl:pr-8 xl:pb-10 xl:pl-[52px]">
+
+      <!-- Card Container: vertical, 576 wide, radius 30, padding 40/48, gap 24, #FFFFFF -->
+      <section class="flex h-fit w-full max-w-[576px] flex-col gap-6 rounded-[30px] bg-white px-6 py-8 sm:px-12 sm:py-10">
+
+        <!-- Heading & Supporting Subtext: vertical, fill, gap 12 -->
+        <div class="flex w-full flex-col gap-3">
+
+          <!-- Tag: BACK2OWNER 700, 11px, 100%, letter-spacing 10%, #45464C -->
+          <div class="flex items-center gap-1.5">
+            <span class="h-2 w-2 bg-black"></span>
+            <span class="text-[11px] font-bold leading-none tracking-[0.1em] text-[#45464C]">BACK2OWNER</span>
+          </div>
+
+          <!-- Heading 1: 800, 32px, 100%, #151C25 (a bit smaller on phones so it fits) -->
+          <h1 class="flex min-h-[40px] items-center text-[26px] font-extrabold leading-none tracking-normal text-[#151C25] sm:text-[32px]">
+            Verify Your Email Address
+          </h1>
+
+          <!-- Paragraph: Body 400, 15px / 23px, #45464C -->
+          <p class="text-[15px] font-normal leading-[23px] tracking-normal text-[#45464C]">
+            A 6-digit confirmation code has been sent to your email, kindly check your mail.
+          </p>
+        </div>
+
+        <!-- Registration Form: vertical, fill, gap 24 -->
+        <form id="verify-form" class="flex w-full flex-col gap-6">
+
+          <!-- Code field: vertical, gap 8 -->
+          <div class="flex w-full flex-col gap-2">
+
+            <!-- Label: 700, 11px, 100%, letter-spacing 10%, color/ink #0D1B2E -->
+            <label class="text-[11px] font-bold leading-none tracking-[0.1em] text-[#0D1B2E]">
+              Enter the confirmation code
+            </label>
+
+            <!-- Verification Input: horizontal, fill, 43px tall, space-between (6 boxes)
+                 PHONE: boxes share the width equally | DESKTOP: 60px boxes, 24px apart -->
+            <div id="code-row" class="flex h-[43px] w-full justify-between gap-2 sm:gap-4 xl:gap-0">
+                <input type="text" inputmode="numeric" maxlength="6" autocomplete="one-time-code" aria-label="Digit 1"
+                     class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-[#2057E0] focus:outline-none focus:ring-2 focus:ring-[#2057E0]/20 xl:w-[60px] xl:flex-none" />
+              <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2"
+                     class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-[#2057E0] focus:outline-none focus:ring-2 focus:ring-[#2057E0]/20 xl:w-[60px] xl:flex-none" />
+              <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3"
+                     class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-[#2057E0] focus:outline-none focus:ring-2 focus:ring-[#2057E0]/20 xl:w-[60px] xl:flex-none" />
+              <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4"
+                     class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-[#2057E0] focus:outline-none focus:ring-2 focus:ring-[#2057E0]/20 xl:w-[60px] xl:flex-none" />
+              <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5"
+                     class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-[#2057E0] focus:outline-none focus:ring-2 focus:ring-[#2057E0]/20 xl:w-[60px] xl:flex-none" />
+              <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6"
+                     class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-[#2057E0] focus:outline-none focus:ring-2 focus:ring-[#2057E0]/20 xl:w-[60px] xl:flex-none" />
+            </div>
+          </div>
+
+          <!-- Primary Action Button: vertical, fill, hug 64, padding-top 4 -->
+          <div class="flex w-full flex-col pt-1">
+            <!-- Button: fill, 60px, radius 18, padding 12/16, #F97316 -->
+            <button type="submit"
+                    class="flex h-[60px] w-full items-center justify-center gap-1 rounded-[18px] bg-[#F97316] px-4 py-3 transition-colors hover:bg-[#EA580C] focus:outline-none focus:ring-2 focus:ring-[#F97316]/40">
+              <span class="text-center text-[16px] font-semibold leading-6 tracking-normal text-white">Confirm</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Redirection line: horizontal, fill, hug 26, padding-top 4, gap 4 (wraps on small phones) -->
+        <div class="flex w-full flex-wrap items-center justify-center gap-1 pt-1">
+          <span class="text-center text-[14px] font-medium leading-5 tracking-normal text-[#45464C]">Didn't Receive An Email?</span>
+          <button type="button" id="resend"
+                  class="text-center text-[15px] font-semibold leading-[22px] tracking-normal text-[#151C25] hover:text-[#2057E0]">Request</button>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <script>
+    // --- 6-box code input: type a digit -> jumps to next; Backspace -> back; paste fills all ---
+    const boxes = document.querySelectorAll(".code-box");
+
+    boxes.forEach(function (box, i) {
+      box.addEventListener("input", function () {
+        const digits = box.value.replace(/\D/g, "");          // digits only
+        
+        // A whole code arrived at once (phone autofill or paste into one box): spread it out
+        if (digits.length > 1) {
+            digits.slice(0, boxes.length - i).split("").forEach(function (d, k) {
+                boxes[i + k].value = d;
+            });
+            boxes[Math.min(i + digits.length, boxes.length - 1)].focus();
+            return;
+        }
+
+        box.value = digits;
+        if (digits && i < boxes.length - 1) boxes[i + 1].focus();
+    });
+      box.addEventListener("paste", function (e) {
+        e.preventDefault();
+        const digits = (e.clipboardData.getData("text") || "").replace(/\D/g, "").slice(0, boxes.length);
+        digits.split("").forEach(function (d, k) { boxes[k].value = d; });
+        boxes[Math.min(digits.length, boxes.length - 1)].focus();
+      });
+    });
+
+    document.getElementById("verify-form").addEventListener("submit", function (e) {
+      e.preventDefault();                                   // remove when a real backend is connected
+      const code = Array.from(boxes).map(function (b) { return b.value; }).join("");
+      if (code.length < boxes.length) { alert("Please enter all 6 digits."); return; }
+      console.log("Code entered:", code);
+    });
+
+    document.getElementById("resend").addEventListener("click", function () {
+      console.log("Resend requested");                      // connect to your resend endpoint later
+    });
+  </script>
+</body>
+</html>
