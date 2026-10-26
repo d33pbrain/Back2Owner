@@ -122,17 +122,16 @@
   </main>
   
   <script>
-    const pw = document.getElementById("password");
-    const eye = document.getElementById("toggle-password");
-    eye.addEventListener("click", function () {
-      const showing = pw.type === "text";
-      pw.type = showing ? "password" : "text";
-      eye.setAttribute("aria-label", showing ? "Show password" : "Hide password");
-    });
-    document.getElementById("signup-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-      window.location.href = "back2owner verify email.html";
-    });
+  const pw = document.getElementById("password");
+  const eye = document.getElementById("toggle-password");
+  eye.addEventListener("click", function () {
+    const showing = pw.type === "text";
+    pw.type = showing ? "password" : "text";
+    eye.setAttribute("aria-label", showing ? "Show password" : "Hide password");
+  });
+  document.getElementById("signup-form").addEventListener("submit", function (e) {
+  e.preventDefault(); // remove later when you connect a real backend
+  });
   </script>
 </body>
 </html>
