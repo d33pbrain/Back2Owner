@@ -21,7 +21,7 @@ const sidebarHTML = `
           <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 2.5 11.2a1 1 0 0 0 1.3 1.5L5 11.7V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-8.3l1.2 1a1 1 0 0 0 1.3-1.5L12 3Z"/></svg>
           <span>Home</span>
         </a>
-        <a href="#" class="side-link" data-nav>
+        <a href="back2owner my reports page.html" class="side-link" data-nav>
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M12 10v4M12 17h.01"/></svg>
           <span>My Reports</span>
         </a>

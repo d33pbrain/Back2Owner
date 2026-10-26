@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Reports | Back2Owner</title>
+  <link rel="stylesheet" href="output.css" />
+</head>
+
+<body class="app-body">
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <div class="mx-auto flex min-h-screen w-full max-w-[1280px]">
+    <div id="sidebar-container"></div>
+
+    <main class="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
+      <header class="mb-6 flex items-center gap-3">
+        <button id="menuToggle" class="icon-btn lg:hidden" aria-label="Open menu">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"/>
+          </svg>
+        </button>
+
+        <label class="search-box flex flex-1 items-center gap-3 px-5 py-3">
+          <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/>
+            <path d="m20 20-3.5-3.5"/>
+          </svg>
+          <input id="searchInput" type="search" placeholder="Search for lost items" class="w-full bg-transparent text-sm outline-none" />
+        </label>
+
+        <button class="icon-btn" aria-label="Filter reports">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 7h16M7 12h10M10 17h4"/>
+          </svg>
+        </button>
+      </header>
+
+      <section class="hero-panel mb-6 flex flex-col gap-6 px-6 py-8 md:flex-row md:items-center md:justify-between">
+        <div class="max-w-2xl">
+          <h1 class="page-title">My Reports</h1>
+          <p class="page-text mt-2">
+            Track, manage, and review the status of lost belongings you have reported or items
+            you found across OAU campus halls, faculties, and lecture theatres.
+          </p>
+        </div>
+        <a href="#" class="btn-orange inline-flex shrink-0 items-center justify-center gap-2 px-6 py-3">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 8v8M8 12h8"/>
+          </svg>
+          Report A Problem
+        </a>
+      </section>
+
+      <section class="mb-6 grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4" aria-label="Report summary">
+        <div class="stat-tile">
+          <p class="stat-label">Total Submissions</p>
+          <p class="stat-value"><span id="statTotal" class="stat-number">4</span><span class="stat-unit">items</span></p>
+          <p class="stat-caption">Registry lifetime: <span id="statTotalCaption">4</span> entries</p>
+        </div>
+
+        <div class="stat-tile">
+          <p class="stat-label">Active</p>
+          <p class="stat-value"><span id="statActive" class="stat-number">2</span><span class="stat-unit">searchable</span></p>
+          <p class="stat-caption">Publicly queried on bulletin</p>
+        </div>
+
+        <div class="stat-tile">
+          <p class="stat-label">Pending Verification</p>
+          <p class="stat-value"><span id="statPending" class="stat-number">1</span><span class="stat-unit">in review</span></p>
+          <p class="stat-caption">Security post audit queued</p>
+        </div>
+
+        <div class="stat-tile">
+          <p class="stat-label">Resolved</p>
+          <p class="stat-value"><span id="statResolved" class="stat-number">1</span><span class="stat-unit">handover</span></p>
+          <p class="stat-caption">Verified &amp; closed by custodian</p>
+        </div>
+      </section>
+
+      <section id="reportsList" class="flex flex-col gap-5" aria-live="polite"></section><aside class="notice mt-6 px-6 py-5">
+        <p class="notice-title flex items-center gap-2">
+          <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6l-7-3Z"/>
+          </svg>
+          CAMPUS PROTOCOL • LIFECYCLE RETENTION NOTICE
+        </p>
+        <p class="notice-text mt-2">
+          Active reports remain queryable in the OAU student repository for 30 days. If your item has
+          been recovered, please mark it as “Returned” to notify security porters and free up registry resources.
+        </p>
+      </aside>
+
+      <footer class="mb-4 mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <p id="resultsSummary" class="results-summary"></p>
+        <nav id="pagination" class="flex items-center gap-2" aria-label="Report pages"></nav>
+      </footer>
+    </main>
+  </div>
+
+  <script src="js/home.js"></script>
+  <script src="js/myreport.js"></script>
+</body>
+</html>
