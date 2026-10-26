@@ -261,6 +261,11 @@
         checkImages();
         break;
 
+      case "claims":
+      case "queue":
+        window.location.href = "back2owner claim review page.html";
+        break;
+
       default:
         alert(`${ACTION_LABELS[button.dataset.action]}: ${report.title}`);
     }

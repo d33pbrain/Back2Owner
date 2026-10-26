@@ -1297,6 +1297,9 @@
     .md\:grid-cols-\[130px_1fr\] {
       grid-template-columns: 130px 1fr;
     }
+    .md\:grid-cols-\[205px_1fr\] {
+      grid-template-columns: 205px 1fr;
+    }
     .md\:flex-row {
       flex-direction: row;
     }
@@ -1507,6 +1510,9 @@
     }
     .xl\:grid-cols-4 {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .xl\:grid-cols-\[1fr_210px\] {
+      grid-template-columns: 1fr 210px;
     }
     .xl\:grid-cols-\[130px_1fr_210px\] {
       grid-template-columns: 130px 1fr 210px;
@@ -2053,6 +2059,187 @@ input[type="password"]::-ms-reveal, input[type="password"]::-ms-clear {
 .page-btn.is-current {
   background: var(--color-accent);
   color: #fff;
+}
+.crumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.crumb-link {
+  color: #475569;
+}
+.crumb-link:hover {
+  color: var(--color-accent-dark);
+}
+.crumb-sep {
+  color: #94a3b8;
+}
+.crumb-current {
+  color: var(--color-accent);
+}
+.item-panel {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: 0 6px 16px -12px rgba(17, 24, 39, 0.2);
+}
+.item-ref {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #64748b;
+}
+.tag-lost {
+  background: var(--color-brand-dark);
+}
+.tag-soft {
+  background: #f1f5f9;
+  color: #64748b;
+}
+.item-thumb {
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: repeating-linear-gradient(135deg, #8a6a4a 0 12px, #7a5c3f 12px 24px);
+}
+@media (min-width: 768px) {
+  .item-thumb {
+    width: 205px;
+    height: 172px;
+  }
+}
+.item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.item-title {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #0f172a;
+}
+.detail-label {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+.detail-value {
+  margin-top: 2px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+.item-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+.all-claims-bar {
+  background: var(--color-brand);
+  border-radius: 8px;
+  padding: 14px 20px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+.claim-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: 0 6px 16px -12px rgba(17, 24, 39, 0.2);
+}
+.claim-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #edf0f4;
+}
+.claim-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+.claim-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+.claim-status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ef4444;
+}
+.claim-status.is-done::before {
+  background: #0f172a;
+}
+.claim-heading {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #374151;
+}
+.claim-quote {
+  padding: 10px 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.7;
+  color: #1f2937;
+}
+.doc-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.doc-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  max-width: 100%;
+  padding: 6px 10px;
+  background: #f8fafc;
+  border: 1px solid #edf0f4;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  color: #475569;
+}
+.doc-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-weight: 400;
+}
+.doc-view {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+.doc-view:hover {
+  color: var(--color-accent-dark);
 }
 @property --tw-translate-x {
   syntax: "*";
