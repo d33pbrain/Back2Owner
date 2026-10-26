@@ -104,7 +104,7 @@
       e.preventDefault();
       const code = Array.from(boxes).map(function (b) { return b.value; }).join("");
       if (code.length < boxes.length) { alert("Please enter all 6 digits."); return; }
-      console.log("Code entered:", code);
+      window.location.href = "back2owner home page.html";
     });
 
     document.getElementById("resend").addEventListener("click", function () {
