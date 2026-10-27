@@ -27,6 +27,9 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 # Application definition
 
 INSTALLED_APPS = [
+    # Django ASGI Server (must be at the top)
+    'daphne',
+
     # Django core apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_spectacular',
+    'channels',  # Required for WebSockets / Django Channels
 
     # Local Back2Owner apps
     'users',
@@ -75,6 +79,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
+
+# ASGI Application for Channels/WebSockets
+ASGI_APPLICATION = 'core.asgi.application'
+
+# In-Memory Channel Layer for WebSockets development
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 
 # Custom User Model

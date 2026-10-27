@@ -13,6 +13,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),
     path('api/items/', include('items.urls')),
+    path('api/chat/', include('chat.urls')),
     
     # API Schema & Documentation
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
