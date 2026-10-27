@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages | Back2Owner</title>
+  <link rel="stylesheet" href="output.css" />
+</head>
+
+<body class="app-body">
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <div class="mx-auto flex min-h-screen w-full max-w-[1280px]">
+    <div id="sidebar-container"></div>
+
+    <main class="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
+      <header class="mb-6 flex items-center gap-3">
+        <button id="menuToggle" class="icon-btn lg:hidden" aria-label="Open menu">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"/>
+          </svg>
+        </button>
+
+        <label class="search-box flex flex-1 items-center gap-3 px-5 py-3">
+          <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/>
+            <path d="m20 20-3.5-3.5"/>
+          </svg>
+          <input id="searchInput" type="search" placeholder="Search for lost items" class="w-full bg-transparent text-sm outline-none" />
+        </label>
+
+        <button id="filterBtn" class="icon-btn" aria-label="Show unread messages only" aria-pressed="false">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M7 12h10M10 17h4"/>
+          </svg>
+        </button>
+      </header>
+
+      <section class="hero-panel mb-6 px-6 py-8">
+        <h1 class="page-title">Messages</h1>
+        <p class="page-text mt-2">
+          Direct encrypted communications unlocked for accepted item claims. Use this channel to coordinate
+          secure in-person physical handovers at designated campus security posts and porter's lodges.
+        </p>
+      </section>
+
+      <section id="messagesList" class="flex flex-col gap-4" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <script src="js/home.js"></script>
+  <script src="js/messages.js"></script>
+</body>
+</html>
