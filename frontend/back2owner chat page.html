@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat | Back2Owner</title>
+  <link rel="stylesheet" href="output.css" />
+</head>
+
+<body class="app-body">
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <div class="mx-auto flex min-h-screen w-full max-w-[1280px]">
+    <div id="sidebar-container"></div>
+
+    <main class="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
+      <header class="mb-6 flex items-center gap-3">
+        <button id="menuToggle" class="icon-btn lg:hidden" aria-label="Open menu">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"/>
+          </svg>
+        </button>
+
+        <a href="back2owner messages page.html" class="icon-btn" aria-label="Back to Messages">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </a>
+
+        <nav class="crumb" aria-label="Breadcrumb">
+          <a href="back2owner messages page.html" class="crumb-link">Messages</a>
+          <span class="crumb-sep">/</span>
+          <span class="crumb-current">Chat</span>
+        </nav>
+      </header>
+
+      <section id="chatHead" aria-label="Conversation partner"></section>
+
+      <section id="chatThread" class="chat-body mt-5" aria-live="polite"></section>
+
+      <form id="composer" class="composer mt-4" autocomplete="off">
+        <label for="messageInput" class="sr-only">Type a message</label>
+        <textarea
+          id="messageInput"
+          class="composer-input"
+          rows="3"
+          placeholder="Type a message to coordinate handover details (do not share passwords, financial data, or off-campus locations)..."
+        ></textarea>
+
+        <div class="composer-foot">
+          <div class="plus-wrap">
+            <button type="button" id="plusBtn" class="plus-btn" aria-label="Add attachment or request" aria-haspopup="true" aria-expanded="false">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+            </button>
+
+            <div id="plusMenu" class="plus-menu">
+              <button type="button" data-action="upload">
+                <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m21 11-8.5 8.5a5 5 0 0 1-7-7L14 4a3.3 3.3 0 0 1 4.7 4.7L10.2 17a1.7 1.7 0 0 1-2.4-2.4L15 7.5"/>
+                </svg>
+                Upload Files
+              </button>
+              <button type="button" data-action="request">
+                <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M3 17h4l5 3 8-3a2 2 0 0 0-2-3h-5M7 17V11M12 4v6M9 7l3-3 3 3"/>
+                </svg>
+                Request Claim Confirmation
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" id="sendBtn" class="send-btn" disabled>
+            SEND
+            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 4l16 8-16 8 3-8-3-8Z"/>
+            </svg>
+          </button>
+        </div>
+
+        <input id="fileInput" type="file" class="hidden" multiple />
+      </form>
+    </main>
+  </div>
+
+  <script src="js/home.js"></script>
+  <script src="js/chat.js"></script>
+</body>
+</html>
