@@ -12,7 +12,7 @@ const sidebarHTML = `
   <aside id="sidebar" class="sidebar flex flex-col justify-between px-5 py-6">
     <div>
       <div class="flex items-center justify-between mb-10">
-        <a href="back2owner landing page.html" class="logo-box inline-block px-4 py-2">BACK<span class="text-accent">2</span>OWNER</a>
+        <a href="index.html" class="logo-box inline-block px-4 py-2">BACK<span class="text-accent">2</span>OWNER</a>
         
         <button id="sidebarCloseToggle" class="!hidden max-lg:!block icon-btn p-1 text-slate-600 hover:text-slate-900" aria-label="Close menu">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -106,7 +106,7 @@ if (sidebarContainer) {
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("user_info");
-      window.location.href = "back2owner landing page.html";
+      window.location.href = "index.html";
     });
   }
 }

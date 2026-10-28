@@ -4,7 +4,7 @@
 
   // List ALL public pages that DO NOT require logging in
   const publicPages = [
-    "back2owner landing page.html",
+    "index.html",
     "back2owner sign in page.html",
     "back2owner sign up page.html",
     "back2owner register page.html",
