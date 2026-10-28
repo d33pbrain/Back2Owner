@@ -40,7 +40,7 @@ const sidebarHTML = `
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-6"/><circle cx="18" cy="6" r="2.5"/></svg>
           <span>Notifications</span>
         </a>
-        <a href="#" class="side-link" data-nav>
+        <a href="back2owner profile page.html" class="side-link" data-nav>
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
           <span>Profile</span>
         </a>
