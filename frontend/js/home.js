@@ -12,7 +12,7 @@ const sidebarHTML = `
   <aside id="sidebar" class="sidebar flex flex-col justify-between px-5 py-6">
     <div>
       <div class="flex items-center justify-between mb-10">
-        <a href="back2owner%20landing%20page.html" class="logo-box inline-block px-4 py-2">BACK2OWNER</a>
+        <a href="back2owner landing page.html" class="logo-box inline-block px-4 py-2">BACK<span class="text-accent">2</span>OWNER</a>
         
         <!-- Mobile Close Button -->
         <button id="sidebarCloseToggle" class="!hidden max-lg:!block icon-btn p-1 text-slate-600 hover:text-slate-900" aria-label="Close menu">
@@ -36,7 +36,7 @@ const sidebarHTML = `
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.5L3 21l2-5.3A8.5 8.5 0 1 1 21 11.5Z"/></svg>
           <span>Messages</span>
         </a>
-        <a href="#" class="side-link" data-nav>
+        <a href="back2owner notifications page.html" class="side-link" data-nav>
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-6"/><circle cx="18" cy="6" r="2.5"/></svg>
           <span>Notifications</span>
         </a>

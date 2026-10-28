@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notifications | Back2Owner</title>
+  <link rel="stylesheet" href="output.css" />
+</head>
+
+<body class="app-body">
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <div class="mx-auto flex min-h-screen w-full max-w-[1280px]">
+    <div id="sidebar-container"></div>
+
+    <main class="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
+      <header class="mb-6 flex items-center gap-3">
+        <button id="menuToggle" class="icon-btn lg:hidden" aria-label="Open menu">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"/>
+          </svg>
+        </button>
+
+        <label class="search-box flex flex-1 items-center gap-3 px-5 py-3">
+          <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/>
+            <path d="m20 20-3.5-3.5"/>
+          </svg>
+          <input id="searchInput" type="search" placeholder="Search for messages" class="w-full bg-transparent text-sm outline-none" />
+        </label>
+
+        <button id="filterBtn" class="icon-btn" aria-label="Filter notifications" aria-expanded="false" aria-controls="filterPanel">
+          <svg class="icon-lines h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M7 12h10M10 17h4"/>
+          </svg>
+          <svg class="icon-x h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6 6 18"/>
+          </svg>
+        </button>
+      </header>
+
+      <section id="filterPanel" class="filter-panel mb-5" aria-label="Notification filters"></section>
+
+      <section class="hero-panel mb-6 px-6 py-8">
+        <h1 class="page-title">Notifications</h1>
+        <p class="page-text mt-2">
+          Stay updated on item verification, claim reviews, automated catalog matches, secure messages,
+          and physical handover confirmations across OAU campus lodges.
+        </p>
+      </section>
+
+      <section id="notifList" class="flex flex-col gap-3" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <script src="js/home.js"></script>
+  <script src="js/notifications.js"></script>
+</body>
+</html>
