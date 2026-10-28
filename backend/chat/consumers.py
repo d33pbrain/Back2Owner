@@ -8,18 +8,22 @@ from .models import Conversation, Message
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.conversation_id = self.scope['url_route']['kwarg']['conversation_id']
+        self.conversation_id = self.scope['url_route']['kwargs']['conversation_id']
         self.room_group_name = f'chat_{self.conversation_id}'
 
-        # Ensure user is authenticated
         self.user = self.scope.get('user', AnonymousUser())
+        print(f"DEBUG WS USER: {self.user} (Authenticated: {getattr(self.user, 'is_authenticated', False)})")
+
         if not self.user.is_authenticated:
+            print("DEBUG WS REJECT: User is not authenticated!")
             await self.close()
             return
 
-        # Ensure user is a participant in the conversation
         is_participant = await self.check_participant()
+        print(f"DEBUG WS IS PARTICIPANT: {is_participant}")
+
         if not is_participant:
+            print("DEBUG WS REJECT: User is not a participant in this conversation!")
             await self.close()
             return
 
@@ -28,7 +32,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
         await self.accept()
-
+        
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
             self.room_group_name,

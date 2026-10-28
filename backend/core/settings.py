@@ -1,7 +1,7 @@
 """
 Django settings for Back2Owner project.
 
-Configured for Render Deployment, Supabase PostgreSQL, Resend, & Cloudinary Media Storage.
+Configured for Render Deployment, Supabase PostgreSQL, Resend, Cloudinary Media Storage, & Redis Channels.
 """
 
 import os
@@ -93,12 +93,24 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # ASGI Application for Channels/WebSockets
 ASGI_APPLICATION = 'core.asgi.application'
 
-# Channel Layer Configuration
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-    },
-}
+# Channel Layer Configuration (Redis for Production / InMemory for Local)
+REDIS_URL = os.getenv('REDIS_URL')
+
+if REDIS_URL:
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                'hosts': [REDIS_URL],
+            },
+        },
+    }
+else:
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        },
+    }
 
 
 # Custom User Model

@@ -1,7 +1,7 @@
 // js/chat.js
 (function () {
   const CONVERSATION_DETAIL_API = `${CONFIG.API_BASE_URL}/api/chat/conversations/`;
-  const WEBSOCKET_BASE_URL = `${CONFIG.API_BASE_URL.replace("http", "ws")}/ws/chat/`;
+  const WEBSOCKET_BASE_URL = `${CONFIG.API_BASE_URL.replace(/^http/, "ws")}/ws/chat/`;
 
   const chatHead = document.getElementById("chatHead");
   const chatThread = document.getElementById("chatThread");
@@ -73,13 +73,17 @@
     const faculty = person.department_or_faculty || "OAU Campus";
     const itemRef = itemDetails ? `${itemDetails.report_type} #${itemDetails.item_ref || itemDetails.id.slice(0, 8)}` : "";
     const itemTitle = itemDetails ? itemDetails.title : "";
+    
+    const avatarContent = person.avatar 
+      ? `<img src="${escapeHTML(person.avatar)}" alt="${escapeHTML(personName)}" class="h-10 w-10 rounded-full object-cover shrink-0">`
+      : `<span class="avatar avatar-lg flex h-10 w-10 items-center justify-center rounded-full bg-brand/10 text-brand font-bold text-sm shrink-0">
+           <span class="avatar-initials">${escapeHTML(initials(personName))}</span>
+         </span>`;
 
     return `
       <div class="chat-head bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
         <div class="flex min-w-0 items-center gap-4">
-          <span class="avatar avatar-lg flex h-10 w-10 items-center justify-center rounded-full bg-brand/10 text-brand font-bold text-sm shrink-0">
-            <span class="avatar-initials">${escapeHTML(initials(personName))}</span>
-          </span>
+          ${avatarContent}
           <div class="min-w-0">
             <p class="flex flex-wrap items-baseline gap-x-2">
               <span class="chat-name font-bold text-slate-800">${escapeHTML(personName)}</span>
@@ -120,8 +124,11 @@
       `;
     }
 
-    const isMe = msg.is_me || (currentUser && (msg.sender === currentUser.id || msg.sender_name === currentUser.full_name));
-    const senderName = isMe ? "You" : (msg.sender_name || otherParticipant.full_name || "User");
+    const isMe = msg.is_me !== undefined 
+      ? msg.is_me 
+      : (currentUser && (msg.sender === currentUser.id || msg.sender_id === currentUser.id || msg.sender_name === currentUser.full_name));
+      
+    const senderName = isMe ? "You" : (msg.sender_name || (otherParticipant ? otherParticipant.full_name : "User"));
     const timeStr = formatTime(msg.created_at);
 
     if (msg.attachment || msg.message_type === "FILE") {
@@ -167,7 +174,7 @@
         html += `<div class="date-divider text-center my-4"><span class="bg-slate-100 text-slate-500 text-[11px] font-semibold px-3 py-1 rounded-full">${escapeHTML(dateLabel)}</span></div>`;
         lastDateLabel = dateLabel;
       }
-      html += createMessageCard(msg);
+      html += createMessageItem(msg);
     });
 
     chatThread.innerHTML = html;
@@ -183,7 +190,7 @@
       }
     }
 
-    chatThread.insertAdjacentHTML("beforeend", createMessageCard(msg));
+    chatThread.insertAdjacentHTML("beforeend", createMessageItem(msg));
     scrollToBottom();
   }
 
@@ -249,7 +256,7 @@
     if (!content || blocked) return;
 
     const payload = {
-      message: content,
+      content: content,
       message_type: "TEXT"
     };
 
@@ -380,7 +387,7 @@
       if (button.dataset.action === "request") {
         if (!confirm(`Ask ${otherParticipant.full_name || 'the student'} to confirm claim handover?`)) return;
         const payload = {
-          message: "Claim confirmation requested by user.",
+          content: "Claim confirmation requested by user.",
           message_type: "SYSTEM"
         };
         if (chatSocket && chatSocket.readyState === WebSocket.OPEN) {
@@ -394,7 +401,7 @@
     fileInput.addEventListener("change", () => {
       Array.from(fileInput.files).forEach((file) => {
         const payload = {
-          message: file.name,
+          content: file.name,
           message_type: "FILE"
         };
         if (chatSocket && chatSocket.readyState === WebSocket.OPEN) {
