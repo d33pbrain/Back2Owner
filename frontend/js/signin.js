@@ -1,5 +1,6 @@
 // signin.js
-const LOGIN_API_URL = "http://127.0.0.1:8000/api/users/auth/login/";
+const LOGIN_API_URL = `${CONFIG.API_BASE_URL}/api/users/auth/login/`;
+console.log("LOGIN_API_URL:", LOGIN_API_URL); // Debugging line to check the API URL
 
 document.addEventListener("DOMContentLoaded", () => {
   const signinForm = document.getElementById("signin-form");
@@ -92,8 +93,15 @@ document.addEventListener("DOMContentLoaded", () => {
         showAlert("Login successful! Redirecting...", "success");
 
         setTimeout(() => {
-          window.location.href = "back2owner home page.html";
-        }, 1200);
+          // Check if user was redirected from a protected route
+          const redirectUrl = sessionStorage.getItem("redirect_after_login");
+          if (redirectUrl) {
+            sessionStorage.removeItem("redirect_after_login");
+            window.location.href = redirectUrl;
+          } else {
+            window.location.href = "back2owner home page.html";
+          }
+        }, 1000);
       } else {
         // Extract Django REST framework / SimpleJWT authentication errors
         let errorMsg = "Invalid email or password. Please try again.";

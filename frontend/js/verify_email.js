@@ -1,6 +1,6 @@
 // verify_email.js
-const VERIFY_API_URL = "http://127.0.0.1:8000/api/users/auth/verify-otp/";
-const RESEND_API_URL = "http://127.0.0.1:8000/api/users/auth/resend-otp/";
+const VERIFY_API_URL = `${CONFIG.API_BASE_URL}/api/users/auth/verify-otp/`;
+const RESEND_API_URL = `${CONFIG.API_BASE_URL}/api/users/auth/resend-otp/`;
 
 document.addEventListener("DOMContentLoaded", () => {
   const verifyForm = document.getElementById("verify-form");

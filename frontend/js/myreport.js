@@ -1,6 +1,6 @@
 // js/myreport.js
 (function () {
-  const MY_REPORTS_API_URL = "http://127.0.0.1:8000/api/items/reports/?my_reports=true";
+  const MY_REPORTS_API_URL = `${CONFIG.API_BASE_URL}/api/items/reports/?my_reports=true`;
   const REPORTS_PER_PAGE = 5;
 
   let reportsData = [];

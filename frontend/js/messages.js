@@ -1,6 +1,6 @@
 // js/messages.js
 (function () {
-  const CONVERSATIONS_API_URL = "http://127.0.0.1:8000/api/chat/conversations/";
+  const CONVERSATIONS_API_URL = `${CONFIG.API_BASE_URL}/api/chat/conversations/`;
   const CHAT_PAGE = "back2owner chat page.html";
   const CLAIM_PAGE = "back2owner claim review page.html";
 

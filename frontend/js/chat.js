@@ -1,7 +1,7 @@
 // js/chat.js
 (function () {
-  const CONVERSATION_DETAIL_API = "http://127.0.0.1:8000/api/chat/conversations/";
-  const WEBSOCKET_BASE_URL = "ws://127.0.0.1:8000/ws/chat/";
+  const CONVERSATION_DETAIL_API = `${CONFIG.API_BASE_URL}/api/chat/conversations/`;
+  const WEBSOCKET_BASE_URL = `${CONFIG.API_BASE_URL.replace("http", "ws")}/ws/chat/`;
 
   const chatHead = document.getElementById("chatHead");
   const chatThread = document.getElementById("chatThread");

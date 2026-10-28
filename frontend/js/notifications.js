@@ -1,6 +1,6 @@
 // js/notifications.js
 (function () {
-  const NOTIFICATIONS_API_URL = "http://127.0.0.1:8000/api/notifications/";
+  const NOTIFICATIONS_API_URL = `${CONFIG.API_BASE_URL}/api/notifications/`;
   const NOTIFICATIONS_PAGE = "back2owner notifications page.html";
   const CLAIM_PAGE = "back2owner claim review page.html";
   const CHAT_PAGE = "back2owner chat page.html";

@@ -1,8 +1,8 @@
 // js/home.js
 
 // 1. API CONFIGURATION & STATE
-const ITEMS_API_URL = "http://127.0.0.1:8000/api/items/reports/";
-const CLAIMS_API_URL = "http://127.0.0.1:8000/api/items/claims/";
+const ITEMS_API_URL = `${CONFIG.API_BASE_URL}/api/items/reports/`;
+const CLAIMS_API_URL = `${CONFIG.API_BASE_URL}/api/items/claims/`;
 
 let allItems = [];
 let allClaims = [];
@@ -14,7 +14,6 @@ const sidebarHTML = `
       <div class="flex items-center justify-between mb-10">
         <a href="back2owner landing page.html" class="logo-box inline-block px-4 py-2">BACK<span class="text-accent">2</span>OWNER</a>
         
-        <!-- Mobile Close Button -->
         <button id="sidebarCloseToggle" class="!hidden max-lg:!block icon-btn p-1 text-slate-600 hover:text-slate-900" aria-label="Close menu">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -44,6 +43,14 @@ const sidebarHTML = `
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
           <span>Profile</span>
         </a>
+        <button id="logoutBtn" class="side-link w-full text-left flex items-center gap-3 text-red-600 hover:bg-red-50 transition rounded-xl px-3 py-2 mt-2 cursor-pointer">
+          <svg class="nav-icon text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span class="font-medium text-sm">Log Out</span>
+        </button>
       </nav>
 
       <div class="user-chip flex items-center gap-2 mt-6 px-4 py-3">
@@ -90,6 +97,17 @@ if (sidebarContainer) {
       const initials = userInfo.full_name.split(" ").map(n => n[0]).join("").toUpperCase();
       userInitialsEl.textContent = initials.slice(0, 2);
     }
+  }
+
+  // ATTACH LOG OUT HANDLER
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("user_info");
+      window.location.href = "back2owner landing page.html";
+    });
   }
 }
 
@@ -158,7 +176,16 @@ function escapeHTML(text) {
   return div.innerHTML;
 }
 
-// 6. RESPONSIVE CARD RENDERING (REPORTS & CLAIMS/OFFERS)
+// 6. CARD REDIRECTION ROUTER
+function navigateToDetails(id, isClaim = false) {
+  if (isClaim) {
+    window.location.href = `back2owner claim review page.html?claim_id=${id}`;
+  } else {
+    window.location.href = `back2owner item details page.html?id=${id}`;
+  }
+}
+
+// 7. RESPONSIVE CARD RENDERING (REPORTS & CLAIMS/OFFERS)
 function createItemCard(item) {
   const imageSrc = getItemImageUrl(item, "images/card 4.jpg");
   const location = item.specific_location_details || "Campus Landmark";
@@ -168,7 +195,6 @@ function createItemCard(item) {
   return `
     <article class="item-card flex flex-col justify-between bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm w-full min-w-0" data-item-id="${item.id}">
       <div>
-        <!-- Responsive image container with fixed aspect ratio -->
         <div class="card-image overflow-hidden rounded-xl bg-slate-100 relative w-full h-[180px] sm:h-[190px]">
           <img 
             src="${escapeHTML(imageSrc)}" 
@@ -212,7 +238,6 @@ function createClaimCard(claim, targetItem) {
   return `
     <article class="item-card flex flex-col justify-between border-2 border-orange-200 bg-amber-50/20 p-4 sm:p-5 rounded-2xl shadow-sm w-full min-w-0" data-claim-id="${claim.id}">
       <div>
-        <!-- Responsive image container with badge overlay -->
         <div class="card-image overflow-hidden rounded-xl bg-slate-100 relative w-full h-[180px] sm:h-[190px]">
           <img 
             src="${escapeHTML(imageSrc)}" 
@@ -240,18 +265,13 @@ function createClaimCard(claim, targetItem) {
         class="btn-orange btn-details w-full mt-4 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-bold transition-transform active:scale-95 shadow-sm cursor-pointer" 
         onclick="navigateToDetails('${claim.id}', true)"
       >
-        View ${isOffer ? 'Offer' : 'Claim'} Details
+        Offer Details
       </button>
     </article>
   `;
 }
 
-function navigateToDetails(id, isClaim = false) {
-  const param = isClaim ? `claim_id=${id}` : `id=${id}`;
-  window.location.href = `back2owner claim review page.html?${param}`;
-}
-
-// 7. RENDER GRID
+// 8. RENDER GRID
 function renderAllGridItems(items, claims) {
   const itemsGrid = document.getElementById('itemsGrid');
   const emptyMessage = document.getElementById('emptyMessage');
@@ -284,7 +304,7 @@ function renderAllGridItems(items, claims) {
   if (totalCount) totalCount.textContent = totalLength;
 }
 
-// 8. FETCH DATA FROM BACKEND API
+// 9. FETCH DATA FROM BACKEND API
 async function fetchHomeData() {
   const itemsGrid = document.getElementById('itemsGrid');
   if (!itemsGrid) return;
@@ -334,7 +354,7 @@ async function fetchHomeData() {
   }
 }
 
-// 9. INITIALIZE PAGE
+// 10. INITIALIZE PAGE
 document.addEventListener("DOMContentLoaded", () => {
   fetchHomeData();
 

@@ -1,7 +1,7 @@
 // js/claims.js
 (function () {
-  const ITEM_DETAIL_API_URL = "http://127.0.0.1:8000/api/items/reports/";
-  const CLAIM_DETAIL_API_URL = "http://127.0.0.1:8000/api/items/claims/";
+  const ITEM_DETAIL_API_URL = `${CONFIG.API_BASE_URL}/api/items/reports/`;
+  const CLAIM_DETAIL_API_URL = `${CONFIG.API_BASE_URL}/api/items/claims/`;
 
   const itemPanel = document.getElementById("itemPanel");
   const claimsList = document.getElementById("claimsList");

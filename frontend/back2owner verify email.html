@@ -7,61 +7,72 @@
   <link rel="stylesheet" href="output.css" />
 </head>
 
-<body class="bg-canvas"> 
-  <main class="relative isolate mx-auto w-full max-w-[1280px] overflow-hidden bg-canvas xl:h-[870px]">
+<body class="bg-canvas font-sans antialiased"> 
+  <main class="relative isolate mx-auto flex min-h-screen w-full max-w-[1280px] items-center justify-center overflow-hidden bg-canvas px-4 py-8 sm:px-6 xl:px-12 xl:py-12">
 
-    <div class="absolute inset-x-0 bottom-0 -z-20 h-[420px] rounded-t-[40px] bg-brand xl:hidden"></div>
-    <img src="images/Rectangle 2.svg" alt="" class="absolute -z-20 hidden h-[865px] w-[1387px] max-w-none left-[-53px] top-[101px] xl:block">
-    <img src="images/girl2.png" alt="" class="absolute -z-10 max-w-none bottom-0 left-1/2 h-[300px] w-auto -translate-x-[70%] xl:bottom-auto xl:left-[-24px] xl:top-[-40px] xl:h-[928px] xl:w-[1662px] xl:translate-x-0">
+    <!-- Background Layer -->
+    <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+      <div class="absolute inset-x-0 bottom-0 -z-20 h-[320px] rounded-t-[40px] bg-brand xl:hidden"></div>
+      <img src="images/Rectangle 2.svg" alt="" class="absolute hidden max-w-none xl:block xl:-right-10 xl:-top-10 xl:h-[105%] xl:w-auto">
+      <img src="images/girl2.png" alt="" class="absolute bottom-0 left-1/2 h-[260px] w-auto max-w-none -translate-x-[65%] sm:h-[320px] xl:bottom-0 xl:right-0 xl:left-auto xl:max-h-[850px] xl:w-auto xl:translate-x-0">
+    </div>
 
-    <div class="flex min-h-screen w-full items-start justify-center px-4 pt-8 pb-[400px] xl:min-h-0 xl:h-[870px] xl:items-center xl:justify-between xl:pt-10 xl:pr-8 xl:pb-10 xl:pl-[52px]">
+    <!-- Main Grid Container -->
+    <div class="grid w-full grid-cols-1 items-center gap-8 xl:grid-cols-2 xl:gap-12">
 
-      <section class="flex h-fit w-full max-w-[576px] flex-col gap-6 rounded-[30px] bg-white px-6 py-8 sm:px-12 sm:py-10">
+      <section class="z-10 mx-auto flex w-full max-w-[540px] flex-col gap-6 rounded-[30px] bg-white px-6 py-8 shadow-xl border border-slate-100/80 sm:px-10 sm:py-10">
 
-        <div class="flex w-full flex-col gap-3">
-          <div class="flex items-center gap-1.5">
-            <span class="h-2 w-2 bg-black"></span>
-            <span class="text-[11px] font-bold leading-none tracking-[0.1em] text-[#45464C]">BACK2OWNER</span>
-          </div>
+        <!-- Logo Header Lockup -->
+        <div class="flex items-center gap-1.5">
+          <svg class="h-5 w-5 text-[#151C25]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <span class="text-[13px] font-black uppercase tracking-[0.08em] text-[#151C25]">
+            BACK<span class="text-[#FF6B00]">2</span>OWNER
+          </span>
+        </div>
 
-          <h1 class="flex min-h-[40px] items-center text-[26px] font-extrabold leading-none tracking-normal text-[#151C25] sm:text-[32px]">
+        <div class="flex w-full flex-col gap-2">
+          <h1 class="text-[26px] font-extrabold leading-tight text-[#151C25] sm:text-[32px]">
             Verify Your Email Address
           </h1>
 
-          <p class="text-[15px] font-normal leading-[23px] tracking-normal text-[#45464C]">
-            A 6-digit confirmation code has been sent to <span id="target-email" class="font-semibold text-[#151C25]">your email</span>. Kindly check your inbox or spam folder.
+          <p class="text-[14px] leading-[22px] text-[#45464C] sm:text-[15px] sm:leading-[23px]">
+            A 6-digit confirmation code has been sent to <span id="target-email" class="font-bold text-[#151C25]">your email</span>. Kindly check your inbox or spam folder.
           </p>
         </div>
 
-        <!-- Global Status Alert Box (Error / Success Messages) -->
+        <!-- Global Status Alert Box -->
         <div id="status-alert" class="hidden rounded-xl border p-3 text-[13px] font-medium"></div>
 
         <form id="verify-form" class="flex w-full flex-col gap-6">
 
           <div class="flex w-full flex-col gap-2">
-            <label class="text-[11px] font-bold leading-none tracking-[0.1em] text-[#0D1B2E]">
+            <label class="text-[11px] font-bold uppercase tracking-[0.1em] text-[#0D1B2E]">
               Enter the confirmation code
             </label>
 
-            <div id="code-row" class="flex h-[43px] w-full justify-between gap-2 sm:gap-4 xl:gap-0">
+            <!-- Responsive 6-Digit Code Row -->
+            <div id="code-row" class="flex h-[44px] w-full justify-between gap-1.5 sm:gap-2">
               <input type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 1"
-                     class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 xl:w-[60px] xl:flex-none" />
+                     class="code-box h-[44px] min-w-0 flex-1 rounded-xl border border-[#D6DEEA] bg-white px-2 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 transition" />
               <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2"
-                     class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 xl:w-[60px] xl:flex-none" />
+                     class="code-box h-[44px] min-w-0 flex-1 rounded-xl border border-[#D6DEEA] bg-white px-2 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 transition" />
               <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3"
-                     class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 xl:w-[60px] xl:flex-none" />
+                     class="code-box h-[44px] min-w-0 flex-1 rounded-xl border border-[#D6DEEA] bg-white px-2 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 transition" />
               <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4"
-                     class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 xl:w-[60px] xl:flex-none" />
+                     class="code-box h-[44px] min-w-0 flex-1 rounded-xl border border-[#D6DEEA] bg-white px-2 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 transition" />
               <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5"
-                     class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 xl:w-[60px] xl:flex-none" />
+                     class="code-box h-[44px] min-w-0 flex-1 rounded-xl border border-[#D6DEEA] bg-white px-2 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 transition" />
               <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6"
-                     class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 xl:w-[60px] xl:flex-none" />
+                     class="code-box h-[44px] min-w-0 flex-1 rounded-xl border border-[#D6DEEA] bg-white px-2 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 transition" />
             </div>
           </div>
 
           <div class="flex w-full flex-col pt-1">
             <button id="submit-btn" type="submit"
-                    class="flex h-[60px] w-full items-center justify-center gap-2 rounded-[18px] bg-accent px-4 py-3 transition-colors hover:bg-accent-dark focus:outline-none focus:ring-2 focus:ring-accent/40 disabled:opacity-60 disabled:cursor-not-allowed">
+                    class="flex h-[56px] sm:h-[60px] w-full items-center justify-center gap-2 rounded-[18px] bg-accent px-4 py-3 transition-colors hover:bg-accent-dark focus:outline-none focus:ring-2 focus:ring-accent/40 disabled:opacity-60 disabled:cursor-not-allowed">
               <span id="submit-text" class="text-center text-[16px] font-semibold leading-6 tracking-normal text-white">Confirm</span>
               <svg id="submit-spinner" class="hidden h-5 w-5 animate-spin text-white" viewBox="0 0 24 24" fill="none">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -71,16 +82,20 @@
           </div>
         </form>
 
-        <div class="flex w-full flex-wrap items-center justify-center gap-1 pt-1">
-          <span class="text-center text-[14px] font-medium leading-5 tracking-normal text-[#45464C]">Didn't Receive An Email?</span>
+        <div class="flex w-full flex-wrap items-center justify-center gap-1.5 pt-1 text-xs sm:text-sm">
+          <span class="text-center font-medium text-[#45464C]">Didn't Receive An Email?</span>
           <button type="button" id="resend-btn"
-                  class="text-center text-[15px] font-semibold leading-[22px] tracking-normal text-[#151C25] hover:text-brand disabled:opacity-50">Request New Code</button>
+                  class="text-center font-semibold text-[#151C25] hover:text-brand disabled:opacity-50 transition">Request New Code</button>
         </div>
 
       </section>
+
+      <!-- Desktop Alignment Space -->
+      <div class="hidden xl:block min-h-[600px] w-full"></div>
+
     </div>
   </main>
-
+  <script src="config.js"></script>
   <script src="js/verify_email.js"></script>
 </body>
 </html>

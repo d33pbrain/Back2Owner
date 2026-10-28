@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Profile | Back2Owner</title>
+  <script src="js/auth-guard.js"></script>
   <link rel="stylesheet" href="output.css" />
 </head>
 
@@ -45,25 +46,29 @@
       </section>
 
       <div class="flex flex-col gap-6">
+        <!-- 1. Profile Information -->
         <form id="profileForm" class="settings-card" novalidate>
           <h2 class="section-bar">1. Profile Information</h2>
 
           <div class="photo-box mt-5 flex flex-col gap-5 sm:flex-row sm:items-center">
-            <div class="profile-photo">
-              <span id="photoInitials" class="profile-photo-initials">AK</span>
-              <img id="photoPreview" src="images/person.jpg" alt="Your profile photo" data-fallback />
+            <div class="profile-photo relative">
+              <span id="photoInitials" class="profile-photo-initials">UO</span>
+              <img id="photoPreview" src="images/person.jpg" alt="Your profile photo" class="w-full h-full object-cover rounded-full" />
             </div>
 
             <div class="min-w-0">
-              <h3 class="sub-title">Profile Photo</h3>
+              <h3 class="sub-title flex items-center gap-2">
+                <span>Profile Photo</span>
+                <span id="verifiedBadge" class="hidden text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">Verified</span>
+              </h3>
               <p class="field-hint mt-1 max-w-xl">
                 Institutional ID photo is recommended for verified handovers. Image will be visible on claim
                 handoff receipts and authorized porter desks. Accepted formats: PNG, JPG (Max 2MB).
               </p>
               <div class="mt-3 flex flex-wrap items-center gap-3">
-                <button type="button" id="changePhoto" class="btn-orange btn-sm">Change</button>
+                <button type="button" id="changePhoto" class="btn-orange btn-sm">Change Photo</button>
                 <button type="button" id="removePhoto" class="btn-outline-danger btn-sm">Remove</button>
-                <span class="file-current">CURRENT: <span id="photoName">OA_PORTAL_2021.JPG</span></span>
+                <span class="file-current">CURRENT: <span id="photoName">NONE</span></span>
                 <input type="file" id="photoInput" accept="image/png,image/jpeg" hidden />
               </div>
               <p id="photoError" class="field-error" hidden></p>
@@ -73,75 +78,77 @@
           <div class="field mt-5">
             <label for="fullName" class="field-label">Full Name</label>
             <div class="field-box">
-              <input id="fullName" name="fullName" type="text" value="Abuka Kingsley" readonly aria-describedby="fullNameHint" />
-              <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Locked">
-                <rect x="5" y="11" width="14" height="10" rx="2"/>
-                <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
-              </svg>
+              <input id="fullName" name="full_name" type="text" value="" readonly data-editable aria-describedby="fullNameHint" />
             </div>
             <p id="fullNameHint" class="field-hint">Name matching is strictly enforced for Student ID card verification at custody points.</p>
+            <p class="field-error" data-error-for="full_name" hidden></p>
           </div>
 
           <div class="field">
-            <label for="gmail" class="field-label">Gmail</label>
+            <label for="gmail" class="field-label">Institutional Email</label>
             <div class="field-box">
-              <input id="gmail" name="gmail" type="email" value="abukakingsley@gmail.com" readonly data-editable aria-describedby="gmailHint" />
+              <input id="gmail" name="email" type="email" value="" readonly aria-describedby="gmailHint" />
               <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Verified">
                 <circle cx="12" cy="12" r="9"/>
                 <path d="m8.5 12 2.5 2.5 4.5-5"/>
               </svg>
             </div>
             <p id="gmailHint" class="field-hint">Required for receiving automated claim receipts, locker codes, and porter dispatch notices.</p>
-            <p class="field-error" data-error-for="gmail" hidden></p>
           </div>
 
           <div class="field">
             <div class="flex items-end justify-between">
-              <label for="contact" class="field-label">Contact</label>
-              <span class="optional-tag">OPTIONAL</span>
+              <label for="faculty" class="field-label">Department / Faculty</label>
             </div>
             <div class="field-box">
-              <input id="contact" name="contact" type="tel" value="+234 812 345 6789" readonly data-editable />
+              <input id="faculty" name="department_or_faculty" type="text" value="" readonly data-editable aria-describedby="facultyHint" />
             </div>
-            <p class="field-error" data-error-for="contact" hidden></p>
-          </div>
-
-          <div class="field">
-            <div class="flex items-end justify-between">
-              <label for="faculty" class="field-label">Faculty</label>
-              <span class="optional-tag">OPTIONAL</span>
-            </div>
-            <div class="field-box">
-              <input id="faculty" name="faculty" type="text" value="Faculty Of Technology" readonly data-editable aria-describedby="facultyHint" />
-            </div>
-            <p id="facultyHint" class="field-hint">Ensure it matches the exact name in the file for verification.</p>
+            <p id="facultyHint" class="field-hint">e.g., Computer Science & Engineering / Faculty of Technology.</p>
+            <p class="field-error" data-error-for="department_or_faculty" hidden></p>
           </div>
 
           <div class="card-actions">
-            <button type="button" id="editProfile" class="btn-ghost btn-sm">Edit</button>
-            <button type="submit" id="saveProfile" class="btn-orange btn-sm" disabled>Save</button>
+            <button type="button" id="editProfile" class="btn-ghost btn-sm">Edit Profile</button>
+            <button type="submit" id="saveProfile" class="btn-orange btn-sm flex items-center justify-center gap-2" disabled>
+              <span>Save Changes</span>
+            </button>
           </div>
         </form>
 
+        <!-- 2. Account & Authentication (OTP Reset Flow) -->
         <form id="passwordForm" class="settings-card" novalidate>
           <h2 class="section-bar">2. Account &amp; Authentication</h2>
 
-          <div class="mt-5 flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
-            <h3 class="sub-title">Change Password</h3>
-            <span id="passwordUpdated" class="meta-caps">LAST UPDATED: 0 DAYS AGO</span>
+          <div class="mt-5 flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
+            <h3 class="sub-title">Reset Password via Verification Code</h3>
+            <span id="otpTimer" class="text-xs font-semibold text-orange-600"></span>
           </div>
 
+          <!-- Step 1: Email & Request OTP -->
+          <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-[1fr_auto] items-end">
+            <div>
+              <label for="resetEmail" class="field-label">Registered Email Address</label>
+              <div class="field-box is-editing">
+                <input id="resetEmail" name="resetEmail" type="email" placeholder="user@example.com" readonly />
+              </div>
+            </div>
+            <button type="button" id="requestOtpBtn" class="btn-outline btn-sm h-[42px] px-4 font-bold text-slate-700 border border-slate-300 rounded-xl hover:bg-slate-50 transition active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>Send OTP Code</span>
+            </button>
+          </div>
+
+          <!-- Step 2: OTP, New Password & Confirm Password -->
           <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
             <div>
-              <label for="currentPassword" class="field-label">Current Password</label>
+              <label for="otpCode" class="field-label">OTP Verification Code</label>
               <div class="field-box is-editing">
-                <input id="currentPassword" name="currentPassword" type="password" placeholder="Input current password" autocomplete="current-password" />
+                <input id="otpCode" name="otpCode" type="text" placeholder="Enter 6-digit OTP" maxlength="6" autocomplete="off" />
               </div>
             </div>
             <div>
               <label for="newPassword" class="field-label">New Password</label>
               <div class="field-box is-editing">
-                <input id="newPassword" name="newPassword" type="password" placeholder="••••••••••••" autocomplete="new-password" aria-describedby="passwordHint" />
+                <input id="newPassword" name="newPassword" type="password" placeholder="••••••••••••" autocomplete="new-password" />
               </div>
             </div>
             <div>
@@ -152,14 +159,17 @@
             </div>
           </div>
 
-          <p id="passwordHint" class="field-hint">Minimum 8 characters with at least one number and campus authentication token.</p>
-          <p id="passwordError" class="field-error" hidden></p>
+          <p id="passwordHint" class="field-hint mt-2">Enter the verification OTP sent to your email along with your new password.</p>
+          <p id="passwordError" class="field-error mt-1 text-red-500 font-semibold text-xs" hidden></p>
 
-          <div class="card-actions">
-            <button type="submit" id="updatePassword" class="btn-orange btn-sm" disabled>Update</button>
+          <div class="card-actions mt-4">
+            <button type="submit" id="updatePassword" class="btn-orange btn-sm flex items-center justify-center gap-2" disabled>
+              <span>Reset Password</span>
+            </button>
           </div>
         </form>
 
+        <!-- 3. Identity Verification -->
         <form id="verifyForm" class="settings-card" novalidate>
           <h2 class="section-bar">3. Identity &amp; Credential Verification</h2>
 
@@ -191,22 +201,6 @@
                   <span class="choice-text">Active stamped reader registration slip showing matric and session.</span>
                 </span>
               </label>
-
-              <label class="choice-card">
-                <input type="checkbox" class="check" name="docType" value="hall-clearance" />
-                <span>
-                  <span class="choice-title">Hall Accommodation Clearance/Form</span>
-                  <span class="choice-text">Official hall porter allocation receipt (Awolowo, Fajuyi, Moremi, ETF).</span>
-                </span>
-              </label>
-
-              <label class="choice-card">
-                <input type="checkbox" class="check" name="docType" value="portal-biodata" />
-                <span>
-                  <span class="choice-title">Student Portal Bio-Data Screenshot</span>
-                  <span class="choice-text">Official eportal.oauife.edu.ng approved course form or bio-data page.</span>
-                </span>
-              </label>
             </div>
           </fieldset>
 
@@ -233,76 +227,7 @@
           </div>
         </form>
 
-        <form id="prefsForm" class="flex flex-col gap-6" novalidate>
-          <section class="settings-card">
-            <h2 class="section-bar">4. Privacy &amp; Campus Safety</h2>
-            <p class="section-text mt-5">
-              Configure who can view your active lost/found listings, how your student identity appears across campus boards, and your physical handover coordination perimeter.
-            </p>
-
-            <div class="mt-5 flex flex-col gap-3">
-              <label class="choice-card">
-                <input type="checkbox" class="check" name="concealMatric" />
-                <span>
-                  <span class="choice-title">Conceal matric No. on public item discovery boards (show only initials &amp; faculty)</span>
-                  <span class="choice-text">
-                    When active, items reported by you will display as “<span id="maskedName">A.K. (Faculty Of Technology)</span>”
-                    rather than your matric number to prevent deanery scrapers and identity tracking.
-                  </span>
-                </span>
-              </label>
-
-              <label class="choice-card">
-                <input type="checkbox" class="check" name="restrictMessages" />
-                <span>
-                  <span class="choice-title">Restrict direct handover messages exclusively to accepted claims</span>
-                  <span class="choice-text">Prevents unsolicited direct messages from unverified campus users until a reported item match has been formally submitted and approved by either party.</span>
-                </span>
-              </label>
-
-              <label class="choice-card">
-                <input type="checkbox" class="check" name="notifyPorters" />
-                <span>
-                  <span class="choice-title">Allow automated catalog matching to notify hall of residence porters directly</span>
-                  <span class="choice-text">If enabled, items flagged with Awolowo Hall vicinity will auto-alert your assigned Hall Porter Lodge logbook for expedited locker placement.</span>
-                </span>
-              </label>
-            </div>
-          </section>
-
-          <section class="settings-card">
-            <h2 class="section-bar">5. Notification Preferences</h2>
-            <p class="meta-caps mt-5">[ CAMPUS DISPATCH CHANNELS &amp; DESTINATIONS ]</p>
-            <p class="section-text mt-1">
-              Select routing channels for automated recovery triggers, porter logbook updates, and claim
-              handoff coordination notices.
-            </p>
-
-            <div class="mt-5 flex flex-col gap-3">
-              <label class="choice-card">
-                <input type="checkbox" class="check" name="notifyWebmail" />
-                <span>
-                  <span class="choice-title">Institutional OAU webmail</span>
-                  <span class="choice-text">Sends claim receipts, match alerts and porter dispatch notices to your OAU student email.</span>
-                </span>
-              </label>
-
-              <label class="choice-card">
-                <input type="checkbox" class="check" name="notifyInApp" />
-                <span>
-                  <span class="choice-title">In-app realtime system notifications</span>
-                  <span class="choice-text">Shows alerts in your Notifications tab as soon as a match, claim or handover message comes in.</span>
-                </span>
-              </label>
-            </div>
-
-            <div class="card-actions border-t border-line pt-4">
-              <button type="button" id="restoreDefaults" class="btn-ghost btn-sm">Restore Defaults</button>
-              <button type="submit" id="savePrefs" class="btn-orange btn-sm" disabled>Save</button>
-            </div>
-          </section>
-        </form>
-
+        <!-- Delete Account Section -->
         <section class="settings-card mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 class="sub-title">Delete Back2Owner Account</h2>
@@ -314,21 +239,8 @@
     </main>
   </div>
 
-<dialog id="deleteDialog" class="confirm-dialog" aria-labelledby="deleteDialogTitle">
-    <form method="dialog">
-      <h2 id="deleteDialogTitle" class="sub-title">Delete your Back2Owner account?</h2>
-      <p class="field-hint mt-2">
-        Your profile, reports, claims and messages will be permanently removed and can't be recovered.
-      </p>
-      <div class="card-actions">
-        <button value="cancel" class="btn-ghost btn-sm">Cancel</button>
-        <button value="delete" id="confirmDelete" class="btn-danger btn-sm">Delete account</button>
-      </div>
-    </form>
-  </dialog>
-
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
+  <script src="config.js"></script>
   <script src="js/home.js"></script>
   <script src="js/profile.js"></script>
 </body>

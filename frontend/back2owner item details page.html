@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Item Details | Back2Owner</title>
+  <script src="js/auth-guard.js"></script>
+  <link rel="stylesheet" href="output.css" />
+</head>
+
+<body class="bg-[#F0F4F8] min-h-screen text-slate-800 font-sans antialiased">
+
+  <!-- Top Breadcrumb Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 px-4 sm:px-8 py-3.5 flex items-center gap-3">
+    <a href="back2owner home page.html" class="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition" aria-label="Go back to home">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </a>
+    <nav class="flex items-center gap-1.5 text-xs sm:text-sm font-semibold truncate">
+      <a href="back2owner home page.html" class="text-slate-500 hover:text-slate-800 transition">Home</a>
+      <span class="text-slate-400">/</span>
+      <span id="breadcrumbTitle" class="text-orange-600 font-bold truncate">Loading Item...</span>
+    </nav>
+  </header>
+
+  <main class="mx-auto w-full max-w-[960px] px-4 sm:px-6 py-6 sm:py-8 flex flex-col gap-6">
+
+    <!-- Hero Image Section -->
+    <div class="w-full h-[260px] sm:h-[380px] lg:h-[440px] rounded-3xl overflow-hidden bg-slate-200 border border-slate-300 shadow-sm relative">
+      <img id="itemImage" src="images/card 4.jpg" alt="Item Image" class="w-full h-full object-cover object-center" onerror="this.src='images/card 4.jpg'" />
+    </div>
+
+    <!-- Blue Section Banner -->
+    <div class="w-full bg-[#2563EB] text-white px-5 py-3 rounded-xl font-bold text-sm sm:text-base shadow-sm">
+      Item Details
+    </div>
+
+    <!-- Item Main Title & Metadata Header -->
+    <div class="flex flex-col gap-1.5">
+      <h1 id="itemTitle" class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">
+        Loading title...
+      </h1>
+      <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 font-medium">
+        <div class="flex items-center gap-3">
+          <span>Item Ref: <strong id="itemRef" class="text-slate-700">#OAU-2024-0000</strong></span>
+          <span>•</span>
+          <span>Reported: <strong id="itemReportedDate" class="text-slate-700">Recently</strong></span>
+        </div>
+        <div class="flex items-center gap-1 text-slate-600 font-semibold">
+          <svg class="w-3.5 h-3.5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>
+          <span>OAU Student Verified</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 Key Metadata Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+      
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-center">
+        <span class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Category</span>
+        <span id="itemCategory" class="text-xs sm:text-sm font-bold text-slate-800 mt-1">Stationery / Gadgets</span>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-center">
+        <span class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Brand</span>
+        <span id="itemBrand" class="text-xs sm:text-sm font-bold text-slate-800 mt-1">N/A</span>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-center">
+        <span class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Primary Color</span>
+        <span id="itemColor" class="text-xs sm:text-sm font-bold text-slate-800 mt-1">N/A</span>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-center">
+        <span class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Condition</span>
+        <span id="itemCondition" class="text-xs sm:text-sm font-bold text-slate-800 mt-1">Physically Held</span>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-center">
+        <span class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Location</span>
+        <span id="itemLocation" class="text-xs sm:text-sm font-bold text-slate-800 mt-1">Campus Landmark</span>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-center">
+        <span class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Status</span>
+        <span id="itemStatus" class="text-xs sm:text-sm font-bold text-slate-800 mt-1">Unclaimed</span>
+      </div>
+
+    </div>
+
+    <!-- Item Description Box -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col gap-2">
+      <div class="flex items-center gap-2 text-slate-700 font-bold text-sm">
+        <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="18" y2="18"/></svg>
+        <span>Description</span>
+      </div>
+      <p id="itemDescription" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+        Loading detailed item descriptions and notes...
+      </p>
+    </div>
+
+    <!-- Action Buttons & Verification Note Container -->
+    <div class="flex flex-col gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        <button id="claimBtn" type="button" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 px-6 rounded-2xl transition-all shadow-sm active:scale-[0.99] cursor-pointer">
+          Claim Item
+        </button>
+        <button id="reportFraudBtn" type="button" class="w-full bg-white border border-orange-500 text-slate-800 hover:bg-orange-50 font-bold py-3.5 px-6 rounded-2xl transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer">
+          <svg class="w-4 h-4 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Report Fraud
+        </button>
+      </div>
+
+      <!-- Protocol Disclaimer Note -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-start gap-3">
+        <svg class="w-5 h-5 text-red-500 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="12" r="3"/></svg>
+        <div class="flex flex-col gap-0.5">
+          <span class="text-xs font-bold text-red-500">Verification Protocol</span>
+          <p class="text-[11px] sm:text-xs text-slate-500 leading-relaxed">
+            Direct messaging between students is disabled prior to formal claim approval. To protect students from impersonation, clicking "Claim Item" initiates a 3-question verification process (e.g. confirming private serial number, engraving details, or contents) reviewed by campus hall porters / security desk.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <script src="config.js"></script>
+  <script src="js/item-details.js"></script>
+</body>
+</html>

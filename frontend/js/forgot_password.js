@@ -1,6 +1,6 @@
 // forgot_password.js
-const FORGOT_PASSWORD_API = "http://127.0.0.1:8000/api/users/auth/forgot-password/";
-const RESET_PASSWORD_API = "http://127.0.0.1:8000/api/users/auth/reset-password/";
+const FORGOT_PASSWORD_API = `${CONFIG.API_BASE_URL}/api/users/auth/forgot-password/`;
+const RESET_PASSWORD_API = `${CONFIG.API_BASE_URL}/api/users/auth/reset-password/`;
 
 document.addEventListener("DOMContentLoaded", () => {
   const requestForm = document.getElementById("request-otp-form");

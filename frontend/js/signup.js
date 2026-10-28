@@ -1,5 +1,5 @@
 // signup.js
-const API_URL = "http://127.0.0.1:8000/api/users/auth/register/";
+const API_URL = `${CONFIG.API_BASE_URL}/api/users/auth/register/`;
 
 document.addEventListener("DOMContentLoaded", () => {
   const signupForm = document.getElementById("signup-form");

@@ -1,8 +1,8 @@
 // js/report.js
 (function () {
-  const CATEGORIES_API = "http://127.0.0.1:8000/api/items/categories/";
-  const LANDMARKS_API = "http://127.0.0.1:8000/api/items/landmarks/";
-  const REPORT_API = "http://127.0.0.1:8000/api/items/reports/";
+  const CATEGORIES_API = `${CONFIG.API_BASE_URL}/api/items/categories/`;
+  const LANDMARKS_API = `${CONFIG.API_BASE_URL}/api/items/landmarks/`;
+  const REPORT_API = `${CONFIG.API_BASE_URL}/api/items/reports/`;
   const HOME_PAGE = "back2owner home page.html";
 
   const reportForm = document.getElementById("reportForm");
