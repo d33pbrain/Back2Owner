@@ -1,0 +1,1738 @@
+openapi: 3.0.3
+info:
+  title: Back2Owner API
+  version: 1.0.0
+  description: Backend API service for managing lost and found item reports, claims,
+    and chat across campus.
+paths:
+  /api/chat/conversations/:
+    get:
+      operationId: chat_conversations_list
+      description: Retrieve all active message threads for the logged-in user, sorted
+        by the most recent message.
+      summary: List Active User Conversations
+      tags:
+      - chat
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConversationList'
+          description: ''
+  /api/chat/conversations/{id}/:
+    get:
+      operationId: chat_conversations_retrieve
+      description: Fetch full conversation details including participant badges, item
+        context, and historical message log.
+      summary: Get Chat Thread Details & Messages
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - chat
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversationDetail'
+          description: ''
+  /api/chat/conversations/{id}/mark-read/:
+    post:
+      operationId: chat_conversations_mark_read_create
+      description: Marks all incoming unread messages in the selected conversation
+        thread as read.
+      summary: Mark All Messages in Conversation as Read
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConversationList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ConversationList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ConversationList'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: All incoming messages marked as read.
+  /api/chat/messages/:
+    get:
+      operationId: chat_messages_list
+      tags:
+      - chat
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+          description: ''
+    post:
+      operationId: chat_messages_create
+      description: Post a text or file attachment message directly to a chat thread
+        via HTTP.
+      summary: Send Message via REST API
+      tags:
+      - chat
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Message'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Message'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+  /api/chat/messages/{id}/:
+    get:
+      operationId: chat_messages_retrieve
+      description: Fetch a specific message instance by UUID.
+      summary: Get Message Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - chat
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+    put:
+      operationId: chat_messages_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - chat
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Message'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Message'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+    patch:
+      operationId: chat_messages_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - chat
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMessage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMessage'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+    delete:
+      operationId: chat_messages_destroy
+      description: Delete a message sent by the user.
+      summary: Delete Message
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - chat
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/items/categories/:
+    get:
+      operationId: items_categories_list
+      description: Retrieve all item categories.
+      summary: List Categories
+      tags:
+      - items
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+          description: ''
+  /api/items/categories/{id}/:
+    get:
+      operationId: items_categories_retrieve
+      description: Retrieve specific category details by UUID.
+      summary: Get Category Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this category.
+        required: true
+      tags:
+      - items
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+  /api/items/claims/:
+    get:
+      operationId: items_claims_list
+      description: Retrieve claims. Use `?type=submitted` to get claims made by you,
+        or `?type=received` to get claims made on your items.
+      summary: List Claims
+      parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+        description: Filter claims by 'submitted' (claims you submitted) or 'received'
+          (claims on your reported items).
+      tags:
+      - items
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Claim'
+          description: ''
+    post:
+      operationId: items_claims_create
+      description: Submit verification details and up to 3 optional proof documents
+        (`multipart/form-data`). Automatically opens a chat thread.
+      summary: Submit Ownership Claim
+      tags:
+      - items
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Claim'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Claim'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Claim'
+          description: ''
+  /api/items/claims/{id}/:
+    get:
+      operationId: items_claims_retrieve
+      description: Get full verification details and proof files for a specific claim.
+      summary: Get Claim Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - items
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Claim'
+          description: ''
+    put:
+      operationId: items_claims_update
+      description: Update an existing claim.
+      summary: Update Claim
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - items
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Claim'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Claim'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Claim'
+          description: ''
+    patch:
+      operationId: items_claims_partial_update
+      description: Partially update an existing claim.
+      summary: Partially Update Claim
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - items
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedClaim'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedClaim'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Claim'
+          description: ''
+    delete:
+      operationId: items_claims_destroy
+      description: Remove a claim.
+      summary: Delete Claim
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - items
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/items/claims/{id}/review-claim/:
+    post:
+      operationId: items_claims_review_claim_create
+      description: Allows the item reporter to accept ('approve') or decline ('reject')
+        a pending claim.
+      summary: Review Ownership Claim
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - items
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Claim'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Claim'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: Claim review status updated successfully.
+  /api/items/landmarks/:
+    get:
+      operationId: items_landmarks_list
+      description: Retrieve all campus landmark locations.
+      summary: List Campus Landmarks
+      tags:
+      - items
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CampusLandmark'
+          description: ''
+  /api/items/landmarks/{id}/:
+    get:
+      operationId: items_landmarks_retrieve
+      description: Retrieve specific landmark details by UUID.
+      summary: Get Landmark Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this campus landmark.
+        required: true
+      tags:
+      - items
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampusLandmark'
+          description: ''
+  /api/items/reports/:
+    get:
+      operationId: items_reports_list
+      description: Retrieve item reports. Pass `?my_reports=true` to retrieve only
+        reports created by the authenticated user.
+      summary: List Item Reports
+      parameters:
+      - in: query
+        name: my_reports
+        schema:
+          type: boolean
+        description: Filter list to show only reports belonging to the authenticated
+          user.
+      tags:
+      - items
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ItemReport'
+          description: ''
+    post:
+      operationId: items_reports_create
+      description: Create a new report with optional multi-image file attachments
+        (`multipart/form-data`).
+      summary: Report Lost or Found Item
+      tags:
+      - items
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemReport'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemReport'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemReport'
+          description: ''
+  /api/items/reports/{id}/:
+    get:
+      operationId: items_reports_retrieve
+      description: Fetch full details for a specific item report.
+      summary: Get Report Details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this item report.
+        required: true
+      tags:
+      - items
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemReport'
+          description: ''
+    put:
+      operationId: items_reports_update
+      description: Update existing item report details.
+      summary: Update Item Report
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this item report.
+        required: true
+      tags:
+      - items
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemReport'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemReport'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemReport'
+          description: ''
+    patch:
+      operationId: items_reports_partial_update
+      description: Partially update specific fields of an item report.
+      summary: Partially Update Item Report
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this item report.
+        required: true
+      tags:
+      - items
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedItemReport'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedItemReport'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemReport'
+          description: ''
+    delete:
+      operationId: items_reports_destroy
+      description: Permanently delete an item report.
+      summary: Delete Item Report
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this item report.
+        required: true
+      tags:
+      - items
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/items/reports/{id}/mark-as-returned/:
+    post:
+      operationId: items_reports_mark_as_returned_create
+      description: Allows the item reporter to manually resolve an item report.
+      summary: Mark Item As Returned / Resolved
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this item report.
+        required: true
+      tags:
+      - items
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemReport'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemReport'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: Item report marked as resolved.
+  /api/items/reports/my-reports-summary/:
+    get:
+      operationId: items_reports_my_reports_summary_retrieve
+      description: Calculates top dashboard statistics (Total Submissions, Active,
+        Pending Verification, Resolved) for the authenticated user.
+      summary: My Reports Summary Metrics
+      tags:
+      - items
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyReportsSummary'
+          description: ''
+  /api/users/auth/forgot-password/:
+    post:
+      operationId: users_auth_forgot_password_create
+      description: Generates a 6-digit password reset OTP and emails it to the user.
+      summary: Request Password Reset OTP
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ForgotPassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ForgotPassword'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: Password reset OTP sent.
+  /api/users/auth/login/:
+    post:
+      operationId: users_auth_login_create
+      description: Authenticates active campus user credentials (email & password)
+        and returns JWT access and refresh tokens.
+      summary: User Login
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: Login successful. JWT tokens returned.
+  /api/users/auth/register/:
+    post:
+      operationId: users_auth_register_create
+      description: Creates a new unverified user account and sends a 6-digit verification
+        OTP email.
+      summary: Register User Account
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          description: Registration successful. OTP sent.
+  /api/users/auth/resend-otp/:
+    post:
+      operationId: users_auth_resend_otp_create
+      description: Generates and dispatches a new 6-digit verification code to user
+        email.
+      summary: Resend Verification OTP
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResendOTP'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResendOTP'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResendOTP'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: New OTP code dispatched.
+  /api/users/auth/reset-password/:
+    post:
+      operationId: users_auth_reset_password_create
+      description: Verifies the OTP code and sets the new password.
+      summary: Confirm Password Reset with OTP
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResetPassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResetPassword'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: Password reset successful.
+  /api/users/auth/token/refresh/:
+    post:
+      operationId: users_auth_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/users/auth/verify-email/:
+    post:
+      operationId: users_auth_verify_email_create
+      description: Verifies user email with the 6-digit OTP code. Activates account
+        and returns JWT tokens.
+      summary: Verify Account via OTP
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyOTP'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VerifyOTP'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VerifyOTP'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: Account verified successfully.
+  /api/users/auth/verify-otp/:
+    post:
+      operationId: users_auth_verify_otp_create
+      description: Verifies user email with the 6-digit OTP code. Activates account
+        and returns JWT tokens.
+      summary: Verify Account via OTP
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyOTP'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VerifyOTP'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VerifyOTP'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: Account verified successfully.
+  /api/users/profile/:
+    get:
+      operationId: users_profile_retrieve
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+    put:
+      operationId: users_profile_update
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+    patch:
+      operationId: users_profile_partial_update
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserProfile'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+components:
+  schemas:
+    CampusLandmark:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+      required:
+      - id
+      - name
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
+      required:
+      - id
+      - name
+      - slug
+    Claim:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        item:
+          type: string
+          format: uuid
+        item_ref:
+          type: string
+          readOnly: true
+          nullable: true
+        item_title:
+          type: string
+          readOnly: true
+        claimant:
+          type: string
+          format: uuid
+          readOnly: true
+        claimant_name:
+          type: string
+          readOnly: true
+        verification_reason:
+          type: string
+          description: Describe private, distinguishing marks or contents not visible
+            in public photos.
+          maxLength: 1000
+        status:
+          allOf:
+          - $ref: '#/components/schemas/ClaimStatusEnum'
+          readOnly: true
+        proof_documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClaimProof'
+          readOnly: true
+        proof_files:
+          type: array
+          items:
+            type: string
+            format: uri
+          writeOnly: true
+          description: Upload up to 3 supporting proof files (PNG, JPG, WEBP)
+          maxItems: 3
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - claimant
+      - claimant_name
+      - created_at
+      - id
+      - item
+      - item_ref
+      - item_title
+      - proof_documents
+      - status
+      - updated_at
+      - verification_reason
+    ClaimProof:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        file:
+          type: string
+          format: uri
+        uploaded_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - file
+      - id
+      - uploaded_at
+    ClaimStatusEnum:
+      enum:
+      - PENDING
+      - APPROVED
+      - REJECTED
+      - CANCELLED
+      type: string
+      description: |-
+        * `PENDING` - Pending Review
+        * `APPROVED` - Approved
+        * `REJECTED` - Rejected
+        * `CANCELLED` - Cancelled
+    ConversationDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        item_details:
+          type: string
+          readOnly: true
+        participants:
+          type: string
+          readOnly: true
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - item_details
+      - messages
+      - participants
+      - updated_at
+    ConversationList:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        item_details:
+          type: string
+          readOnly: true
+        other_participant:
+          type: string
+          readOnly: true
+        last_message:
+          type: string
+          readOnly: true
+        unread_count:
+          type: string
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - item_details
+      - last_message
+      - other_participant
+      - unread_count
+      - updated_at
+    ForgotPassword:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    ItemImage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        image:
+          type: string
+          format: uri
+        uploaded_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - image
+      - uploaded_at
+    ItemReport:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        item_ref:
+          type: string
+          readOnly: true
+          nullable: true
+        reporter:
+          type: string
+          format: uuid
+          readOnly: true
+        report_type:
+          $ref: '#/components/schemas/ReportTypeEnum'
+        status:
+          allOf:
+          - $ref: '#/components/schemas/ItemReportStatusEnum'
+          readOnly: true
+        stage_description:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        category:
+          type: string
+          format: uuid
+          nullable: true
+        description:
+          type: string
+        brand:
+          type: string
+          nullable: true
+          maxLength: 100
+        primary_colour:
+          type: string
+          nullable: true
+          maxLength: 50
+        distinguishing_features:
+          type: string
+          nullable: true
+        campus_landmark:
+          type: string
+          format: uuid
+          nullable: true
+        specific_location_details:
+          type: string
+        date_lost:
+          type: string
+          format: date
+        estimated_time:
+          type: string
+          format: time
+          nullable: true
+        time_frame:
+          $ref: '#/components/schemas/TimeFrameEnum'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemImage'
+          readOnly: true
+        uploaded_images:
+          type: array
+          items:
+            type: string
+          writeOnly: true
+          description: Upload multiple image files
+        pending_claims_count:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - date_lost
+      - description
+      - id
+      - images
+      - item_ref
+      - pending_claims_count
+      - reporter
+      - specific_location_details
+      - stage_description
+      - status
+      - title
+      - updated_at
+    ItemReportStatusEnum:
+      enum:
+      - OPEN
+      - CLAIM_PENDING
+      - RESOLVED
+      type: string
+      description: |-
+        * `OPEN` - Open
+        * `CLAIM_PENDING` - Claim Pending
+        * `RESOLVED` - Resolved
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - password
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        conversation:
+          type: string
+          format: uuid
+        sender:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        sender_name:
+          type: string
+          readOnly: true
+        message_type:
+          $ref: '#/components/schemas/MessageTypeEnum'
+        content:
+          type: string
+        attachment:
+          type: string
+          format: uri
+          nullable: true
+        is_read:
+          type: boolean
+        is_me:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - content
+      - conversation
+      - created_at
+      - id
+      - is_me
+      - sender
+      - sender_name
+    MessageTypeEnum:
+      enum:
+      - TEXT
+      - SYSTEM_EVENT
+      - IMAGE
+      - FILE
+      type: string
+      description: |-
+        * `TEXT` - Text Message
+        * `SYSTEM_EVENT` - System Event Notice
+        * `IMAGE` - Image Attachment
+        * `FILE` - File Attachment
+    MyReportsSummary:
+      type: object
+      properties:
+        total_submissions:
+          type: integer
+          description: Total items reported by user
+        active_searchable:
+          type: integer
+          description: Active open reports listed publicly
+        pending_verification:
+          type: integer
+          description: Reports currently under claim verification
+        resolved_handover:
+          type: integer
+          description: Reports marked as resolved or returned
+      required:
+      - active_searchable
+      - pending_verification
+      - resolved_handover
+      - total_submissions
+    PatchedClaim:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        item:
+          type: string
+          format: uuid
+        item_ref:
+          type: string
+          readOnly: true
+          nullable: true
+        item_title:
+          type: string
+          readOnly: true
+        claimant:
+          type: string
+          format: uuid
+          readOnly: true
+        claimant_name:
+          type: string
+          readOnly: true
+        verification_reason:
+          type: string
+          description: Describe private, distinguishing marks or contents not visible
+            in public photos.
+          maxLength: 1000
+        status:
+          allOf:
+          - $ref: '#/components/schemas/ClaimStatusEnum'
+          readOnly: true
+        proof_documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClaimProof'
+          readOnly: true
+        proof_files:
+          type: array
+          items:
+            type: string
+            format: uri
+          writeOnly: true
+          description: Upload up to 3 supporting proof files (PNG, JPG, WEBP)
+          maxItems: 3
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedItemReport:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        item_ref:
+          type: string
+          readOnly: true
+          nullable: true
+        reporter:
+          type: string
+          format: uuid
+          readOnly: true
+        report_type:
+          $ref: '#/components/schemas/ReportTypeEnum'
+        status:
+          allOf:
+          - $ref: '#/components/schemas/ItemReportStatusEnum'
+          readOnly: true
+        stage_description:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        category:
+          type: string
+          format: uuid
+          nullable: true
+        description:
+          type: string
+        brand:
+          type: string
+          nullable: true
+          maxLength: 100
+        primary_colour:
+          type: string
+          nullable: true
+          maxLength: 50
+        distinguishing_features:
+          type: string
+          nullable: true
+        campus_landmark:
+          type: string
+          format: uuid
+          nullable: true
+        specific_location_details:
+          type: string
+        date_lost:
+          type: string
+          format: date
+        estimated_time:
+          type: string
+          format: time
+          nullable: true
+        time_frame:
+          $ref: '#/components/schemas/TimeFrameEnum'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemImage'
+          readOnly: true
+        uploaded_images:
+          type: array
+          items:
+            type: string
+          writeOnly: true
+          description: Upload multiple image files
+        pending_claims_count:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        conversation:
+          type: string
+          format: uuid
+        sender:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        sender_name:
+          type: string
+          readOnly: true
+        message_type:
+          $ref: '#/components/schemas/MessageTypeEnum'
+        content:
+          type: string
+        attachment:
+          type: string
+          format: uri
+          nullable: true
+        is_read:
+          type: boolean
+        is_me:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedUserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        full_name:
+          type: string
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        department_or_faculty:
+          type: string
+          description: e.g., Computer Science & Engineering / Faculty of Technology
+          maxLength: 255
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+        is_verified:
+          type: boolean
+          description: Shows the blue verification badge on profile
+    ReportTypeEnum:
+      enum:
+      - LOST
+      - FOUND
+      type: string
+      description: |-
+        * `LOST` - Lost
+        * `FOUND` - Found
+    ResendOTP:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    ResetPassword:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        otp_code:
+          type: string
+          maxLength: 6
+          minLength: 6
+        new_password:
+          type: string
+          writeOnly: true
+          minLength: 8
+        confirm_password:
+          type: string
+          writeOnly: true
+          minLength: 8
+      required:
+      - confirm_password
+      - email
+      - new_password
+      - otp_code
+    TimeFrameEnum:
+      enum:
+      - MORNING
+      - AFTERNOON
+      - EVENING
+      - UNSURE
+      type: string
+      description: |-
+        * `MORNING` - Morning (06:00 - 12:00)
+        * `AFTERNOON` - Afternoon (12:00 - 17:00)
+        * `EVENING` - Evening / Night (17:00+)
+        * `UNSURE` - Unsure / Unknown
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        full_name:
+          type: string
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        department_or_faculty:
+          type: string
+          description: e.g., Computer Science & Engineering / Faculty of Technology
+          maxLength: 255
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+        is_verified:
+          type: boolean
+          description: Shows the blue verification badge on profile
+      required:
+      - department_or_faculty
+      - email
+      - full_name
+      - id
+    UserRegister:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        full_name:
+          type: string
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        department_or_faculty:
+          type: string
+          description: e.g., Computer Science & Engineering / Faculty of Technology
+          maxLength: 255
+        password:
+          type: string
+          writeOnly: true
+          minLength: 8
+      required:
+      - department_or_faculty
+      - email
+      - full_name
+      - id
+      - password
+    VerifyOTP:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        otp_code:
+          type: string
+          maxLength: 6
+      required:
+      - email
+      - otp_code
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -24,10 +24,15 @@
     return new Date(dateString).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
   }
 
+  function getItemImageUrl(data) {
+    if (data && Array.isArray(data.images) && data.images.length > 0) {
+      return data.images[0].image || data.images[0].image_url || "images/card 5.jpg";
+    }
+    return "images/card 5.jpg";
+  }
+
   function createItemPanel(data) {
-    const imageSrc = (data.images && data.images.length > 0 && data.images[0].image_url)
-      ? data.images[0].image_url
-      : "images/card 5.jpg";
+    const imageSrc = getItemImageUrl(data);
 
     return `
       <article class="item-panel bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
@@ -82,14 +87,12 @@
     if (token) headers["Authorization"] = `Bearer ${token}`;
 
     if (claimId) {
-      // Fetch Claim Specific Details
       try {
         const response = await fetch(`${CLAIM_DETAIL_API_URL}${claimId}/`, { headers });
         if (response.ok) {
           const claimData = await response.json();
           claimsList.innerHTML = createClaimCard(claimData);
 
-          // Fetch underlying item
           if (claimData.item) {
             const itemRes = await fetch(`${ITEM_DETAIL_API_URL}${claimData.item}/`, { headers });
             if (itemRes.ok) {
@@ -102,7 +105,6 @@
         console.error("Error loading claim details:", err);
       }
     } else if (reportId) {
-      // Fetch Item Report Specific Details
       try {
         const response = await fetch(`${ITEM_DETAIL_API_URL}${reportId}/`, { headers });
         if (response.ok) {

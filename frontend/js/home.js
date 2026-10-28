@@ -144,33 +144,60 @@ function timeAgo(dateString) {
   return `${days}d ago`;
 }
 
-// 6. CARD RENDERING (REPORTS & CLAIMS/OFFERS)
-function createItemCard(item) {
-  const imageSrc = (item.images && item.images.length > 0 && item.images[0].image_url)
-    ? item.images[0].image_url
-    : "images/card 4.jpg";
+function getItemImageUrl(item, fallback = "images/card 4.jpg") {
+  if (item && Array.isArray(item.images) && item.images.length > 0) {
+    return item.images[0].image || item.images[0].image_url || fallback;
+  }
+  return fallback;
+}
 
+function escapeHTML(text) {
+  if (!text) return "";
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// 6. RESPONSIVE CARD RENDERING (REPORTS & CLAIMS/OFFERS)
+function createItemCard(item) {
+  const imageSrc = getItemImageUrl(item, "images/card 4.jpg");
   const location = item.specific_location_details || "Campus Landmark";
   const status = item.report_type || "LOST";
   const formattedTime = timeAgo(item.created_at || item.date_lost);
 
   return `
-    <article class="item-card flex flex-col justify-between" data-item-id="${item.id}">
+    <article class="item-card flex flex-col justify-between bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm w-full min-w-0" data-item-id="${item.id}">
       <div>
-        <div class="card-image overflow-hidden rounded-xl h-[180px] bg-gray-100">
-          <img src="${imageSrc}" alt="${item.title}" class="w-full h-full object-cover" onerror="this.src='images/card 4.jpg'" />
+        <!-- Responsive image container with fixed aspect ratio -->
+        <div class="card-image overflow-hidden rounded-xl bg-slate-100 relative w-full h-[180px] sm:h-[190px]">
+          <img 
+            src="${escapeHTML(imageSrc)}" 
+            alt="${escapeHTML(item.title)}" 
+            class="w-full h-full object-cover block object-center transition-transform duration-300 hover:scale-105" 
+            onerror="this.src='images/card 4.jpg'" 
+          />
         </div>
-        <div class="flex items-center justify-between mt-4">
-          <span class="badge-${status.toLowerCase()} text-xs font-bold px-2.5 py-1 rounded-full ${status === 'FOUND' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${status}</span>
-          <span class="card-time text-xs text-gray-400 font-medium">${formattedTime}</span>
+
+        <div class="flex items-center justify-between mt-3.5">
+          <span class="badge-${status.toLowerCase()} text-[11px] font-bold px-2.5 py-1 rounded-full ${status === 'FOUND' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'} uppercase">${escapeHTML(status)}</span>
+          <span class="card-time text-xs text-slate-400 font-medium">${formattedTime}</span>
         </div>
-        <h3 class="card-title mt-3 font-semibold text-[#151C25] text-base line-clamp-2" title="${item.title}">${item.title}</h3>
-        <p class="card-location mt-2 text-xs text-gray-500 flex items-center gap-1.5">
-          <svg class="w-3.5 h-3.5 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-          ${location}
+
+        <h3 class="card-title mt-2.5 font-bold text-slate-900 text-base line-clamp-2 min-h-[3rem]" title="${escapeHTML(item.title)}">${escapeHTML(item.title)}</h3>
+        
+        <p class="card-location mt-2 text-xs text-slate-500 flex items-center gap-1.5 truncate">
+          <svg class="w-3.5 h-3.5 shrink-0 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          <span class="truncate">${escapeHTML(location)}</span>
         </p>
       </div>
-      <button class="btn-orange btn-details w-full mt-5 py-3 rounded-xl text-sm font-semibold transition-transform active:scale-95" onclick="navigateToDetails('${item.id}', false)">View Details</button>
+
+      <button 
+        type="button"
+        class="btn-orange btn-details w-full mt-4 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-bold transition-transform active:scale-95 shadow-sm cursor-pointer" 
+        onclick="navigateToDetails('${item.id}', false)"
+      >
+        View Details
+      </button>
     </article>
   `;
 }
@@ -178,26 +205,43 @@ function createItemCard(item) {
 function createClaimCard(claim, targetItem) {
   const isOffer = targetItem && targetItem.report_type === "LOST";
   const badgeLabel = isOffer ? "OFFER TO RETURN" : "CLAIM SUBMITTED";
-  const badgeStyle = isOffer ? "bg-amber-100 text-amber-800" : "bg-blue-100 text-blue-800";
+  const badgeStyle = isOffer ? "bg-amber-100 text-amber-800 border border-amber-200" : "bg-blue-100 text-blue-800 border border-blue-200";
+  const imageSrc = getItemImageUrl(targetItem, "images/card 5.jpg");
   const formattedTime = timeAgo(claim.created_at);
 
   return `
-    <article class="item-card flex flex-col justify-between border-2 border-brand/20 bg-amber-50/20" data-claim-id="${claim.id}">
+    <article class="item-card flex flex-col justify-between border-2 border-orange-200 bg-amber-50/20 p-4 sm:p-5 rounded-2xl shadow-sm w-full min-w-0" data-claim-id="${claim.id}">
       <div>
-        <div class="card-image overflow-hidden rounded-xl h-[180px] bg-gray-100 relative">
-          <img src="images/card 5.jpg" alt="${claim.item_title}" class="w-full h-full object-cover" onerror="this.src='images/card 4.jpg'" />
-          <span class="absolute top-2 right-2 text-[10px] font-extrabold px-2 py-1 rounded ${badgeStyle}">${badgeLabel}</span>
+        <!-- Responsive image container with badge overlay -->
+        <div class="card-image overflow-hidden rounded-xl bg-slate-100 relative w-full h-[180px] sm:h-[190px]">
+          <img 
+            src="${escapeHTML(imageSrc)}" 
+            alt="${escapeHTML(claim.item_title)}" 
+            class="w-full h-full object-cover block object-center transition-transform duration-300 hover:scale-105" 
+            onerror="this.src='images/card 4.jpg'" 
+          />
+          <span class="absolute top-2.5 right-2.5 text-[10px] font-extrabold px-2.5 py-1 rounded-lg ${badgeStyle} shadow-sm backdrop-blur-sm z-10">${badgeLabel}</span>
         </div>
-        <div class="flex items-center justify-between mt-4">
-          <span class="text-xs font-bold px-2 py-0.5 rounded bg-gray-200 text-gray-700">${claim.status}</span>
-          <span class="card-time text-xs text-gray-400 font-medium">${formattedTime}</span>
+
+        <div class="flex items-center justify-between mt-3.5">
+          <span class="text-[11px] font-extrabold px-2.5 py-1 rounded-md bg-slate-200 text-slate-700 uppercase">${escapeHTML(claim.status)}</span>
+          <span class="card-time text-xs text-slate-400 font-medium">${formattedTime}</span>
         </div>
-        <h3 class="card-title mt-3 font-semibold text-[#151C25] text-base line-clamp-2" title="${claim.item_title}">${claim.item_title}</h3>
-        <p class="card-location mt-2 text-xs text-gray-600">
-          <strong class="font-semibold text-gray-800">${claim.claimant_name}:</strong> "${claim.verification_reason}"
+
+        <h3 class="card-title mt-2.5 font-bold text-slate-900 text-base line-clamp-2 min-h-[3rem]" title="${escapeHTML(claim.item_title)}">${escapeHTML(claim.item_title)}</h3>
+        
+        <p class="card-location mt-2 text-xs text-slate-600 line-clamp-2 bg-white/60 p-2 rounded-lg border border-slate-100">
+          <strong class="font-bold text-slate-800">${escapeHTML(claim.claimant_name)}:</strong> "${escapeHTML(claim.verification_reason)}"
         </p>
       </div>
-      <button class="btn-orange btn-details w-full mt-5 py-3 rounded-xl text-sm font-semibold transition-transform active:scale-95" onclick="navigateToDetails('${claim.id}', true)">View ${isOffer ? 'Offer' : 'Claim'} Details</button>
+
+      <button 
+        type="button"
+        class="btn-orange btn-details w-full mt-4 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-bold transition-transform active:scale-95 shadow-sm cursor-pointer" 
+        onclick="navigateToDetails('${claim.id}', true)"
+      >
+        View ${isOffer ? 'Offer' : 'Claim'} Details
+      </button>
     </article>
   `;
 }
@@ -246,9 +290,9 @@ async function fetchHomeData() {
   if (!itemsGrid) return;
 
   itemsGrid.innerHTML = `
-    <div class="col-span-full flex flex-col items-center justify-center py-12 text-gray-500">
-      <svg class="w-8 h-8 animate-spin text-brand mb-2" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-      <p class="text-sm font-medium">Fetching campus items & claims...</p>
+    <div class="col-span-full flex flex-col items-center justify-center py-16 text-slate-500 bg-white border border-slate-200 rounded-2xl shadow-sm">
+      <svg class="w-8 h-8 animate-spin text-orange-500 mb-3" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+      <p class="text-xs sm:text-sm font-bold text-slate-700">Fetching campus items & claims...</p>
     </div>
   `;
 
@@ -262,11 +306,9 @@ async function fetchHomeData() {
   }
 
   try {
-    // 1. Fetch Public Reports (Always succeeds for browsable items)
     const reportsRes = await fetch(ITEMS_API_URL, { method: "GET", headers });
     allItems = reportsRes.ok ? await reportsRes.json() : [];
 
-    // 2. Fetch User Claims (Only if authenticated)
     if (token) {
       const claimsRes = await fetch(CLAIMS_API_URL, { method: "GET", headers });
       if (claimsRes.ok) {
@@ -284,8 +326,8 @@ async function fetchHomeData() {
     console.error("Home Data Fetch Error:", error);
     if (itemsGrid) {
       itemsGrid.innerHTML = `
-        <div class="col-span-full text-center py-10 text-red-500 font-medium text-sm">
-          Unable to connect to backend server.
+        <div class="col-span-full text-center py-12 px-4 bg-red-50 border border-red-200 rounded-2xl text-red-600 text-xs sm:text-sm font-semibold">
+          Unable to connect to backend server. Please check your network connection.
         </div>
       `;
     }

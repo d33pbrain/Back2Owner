@@ -15,16 +15,19 @@ from .serializers import (
     ResendOTPSerializer,
     UserProfileSerializer,
     LoginSerializer,
+    ForgotPasswordSerializer,
+    ResetPasswordSerializer,
 )
 
 User = get_user_model()
 
 
-def send_otp_email(user, otp_code):
+def send_otp_email(user, otp_code, title="Verify Your Email"):
     """Sends OTP verification code via Resend API."""
     resend.api_key = getattr(settings, 'RESEND_API_KEY', '')
 
     print("\n==================================================")
+    print(f" [BACK2OWNER OTP LOG] Purpose: {title}")
     print(f" [BACK2OWNER OTP LOG] Target Email: {user.email}")
     print(f" [BACK2OWNER OTP LOG] Code: {otp_code}")
     print("==================================================\n")
@@ -32,12 +35,12 @@ def send_otp_email(user, otp_code):
     params = {
         "from": getattr(settings, 'DEFAULT_FROM_EMAIL', 'Back2Owner <onboarding@resend.dev>'),
         "to": [user.email],
-        "subject": "Back2Owner - Verify Your Email",
+        "subject": f"Back2Owner - {title}",
         "html": f"""
             <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
                 <h2 style="color: #2563eb; text-align: center;">Back2Owner Campus Network</h2>
                 <p>Hello <strong>{user.full_name}</strong>,</p>
-                <p>Your verification code for completing your registration is:</p>
+                <p>Your OTP code for <strong>{title}</strong> is:</p>
                 <div style="background-color: #f3f4f6; text-align: center; padding: 15px; font-size: 28px; font-weight: bold; letter-spacing: 5px; color: #1e293b; border-radius: 6px; margin: 20px 0;">
                     {otp_code}
                 </div>
@@ -69,7 +72,7 @@ class RegisterView(APIView):
         if serializer.is_valid():
             user = serializer.save()
             otp = OTPVerification.objects.create(user=user)
-            send_otp_email(user, otp.code)
+            send_otp_email(user, otp.code, title="Verify Your Email")
             return Response(
                 {"message": "Registration successful. Please verify the OTP sent to your email."},
                 status=status.HTTP_201_CREATED
@@ -146,7 +149,7 @@ class ResendOTPView(APIView):
         try:
             user = User.objects.get(email=email)
             otp = OTPVerification.objects.create(user=user)
-            send_otp_email(user, otp.code)
+            send_otp_email(user, otp.code, title="New Verification Code")
             return Response({"message": "A new OTP has been sent to your email."}, status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({"error": "User with this email does not exist."}, status=status.HTTP_404_NOT_FOUND)
@@ -186,6 +189,78 @@ class LoginView(APIView):
             },
             "user": UserProfileSerializer(user).data
         }, status=status.HTTP_200_OK)
+
+
+@extend_schema_view(
+    post=extend_schema(
+        summary="Request Password Reset OTP",
+        description="Generates a 6-digit password reset OTP and emails it to the user.",
+        request=ForgotPasswordSerializer,
+        responses={200: OpenApiResponse(description="Password reset OTP sent.")}
+    )
+)
+class ForgotPasswordView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = ForgotPasswordSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        email = serializer.validated_data['email']
+        user = User.objects.get(email=email)
+
+        otp = OTPVerification.objects.create(user=user)
+        send_otp_email(user, otp.code, title="Reset Password Code")
+
+        return Response(
+            {"message": "Password reset code sent to your email address."},
+            status=status.HTTP_200_OK
+        )
+
+
+@extend_schema_view(
+    post=extend_schema(
+        summary="Confirm Password Reset with OTP",
+        description="Verifies the OTP code and sets the new password.",
+        request=ResetPasswordSerializer,
+        responses={200: OpenApiResponse(description="Password reset successful.")}
+    )
+)
+class ResetPasswordView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = ResetPasswordSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        email = serializer.validated_data['email'].lower().strip()
+        otp_code = serializer.validated_data['otp_code']
+        new_password = serializer.validated_data['new_password']
+
+        try:
+            user = User.objects.get(email=email)
+            otp_record = OTPVerification.objects.filter(
+                user=user, code=otp_code, is_used=False
+            ).latest('created_at')
+
+            if not otp_record.is_valid():
+                return Response({"error": "OTP has expired or is invalid."}, status=status.HTTP_400_BAD_REQUEST)
+
+            otp_record.is_used = True
+            otp_record.save()
+
+            user.set_password(new_password)
+            user.save()
+
+            return Response(
+                {"message": "Password has been reset successfully. You can now log in with your new password."},
+                status=status.HTTP_200_OK
+            )
+
+        except (User.DoesNotExist, OTPVerification.DoesNotExist):
+            return Response({"error": "Invalid email or verification code."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProfileView(generics.RetrieveUpdateAPIView):

@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/users/', include('users.urls')),
     path('api/items/', include('items.urls')),
     path('api/chat/', include('chat.urls')),
+    path('api/notifications/', include('notifications.urls')),  # 👈 Added notifications routing
     
     # API Schema & Documentation
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

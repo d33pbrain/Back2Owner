@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter, OpenApiResponse, OpenApiTypes
 from chat.models import Conversation, Message
-from notifications.models import Notification
 from .models import ItemReport, Category, CampusLandmark, Claim
 from .serializers import (
     ItemReportSerializer,
@@ -177,6 +176,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         claim = serializer.save()
 
+        # Automatic Chat Room creation
         conversation, _ = Conversation.objects.get_or_create(item=claim.item)
         conversation.participants.add(claim.claimant, claim.item.reporter)
 
@@ -185,14 +185,7 @@ class ClaimViewSet(viewsets.ModelViewSet):
             sender=claim.claimant,
             content=f"Hello! I have submitted an ownership claim for '{claim.item.title}' ({claim.item.item_ref}). Verification details: {claim.verification_reason}"
         )
-
-        Notification.objects.create(
-            recipient=claim.item.reporter,
-            title="New Ownership Claim Received",
-            message=f"{claim.claimant.full_name} submitted a claim for '{claim.item.title}'.",
-            notification_type=Notification.NotificationType.CLAIM,
-            target_id=claim.id
-        )
+        # Notification is dispatched automatically by notifications/signals.py!
 
     @extend_schema(
         summary="Review Ownership Claim",
@@ -212,36 +205,23 @@ class ClaimViewSet(viewsets.ModelViewSet):
             claim.status = Claim.ClaimStatus.APPROVED
             claim.item.status = ItemReport.Status.RESOLVED
             claim.item.save()
-            claim.save()
+            claim.save()  # Triggers signals.py -> Claim.ClaimStatus.APPROVED notification
 
+            # Reject remaining claims
             Claim.objects.filter(item=claim.item, status=Claim.ClaimStatus.PENDING).exclude(id=claim.id).update(
                 status=Claim.ClaimStatus.REJECTED
             )
 
-            Notification.objects.create(
-                recipient=claim.claimant,
-                title="Claim Approved!",
-                message=f"Your claim for '{claim.item.title}' was approved by the finder.",
-                notification_type=Notification.NotificationType.STATUS_UPDATE,
-                target_id=claim.item.id
-            )
             return Response({"message": "Claim approved and item marked as resolved."}, status=status.HTTP_200_OK)
 
         elif action_type == 'reject':
             claim.status = Claim.ClaimStatus.REJECTED
-            claim.save()
+            claim.save()  # Triggers signals.py -> Claim.ClaimStatus.REJECTED notification
 
             if not Claim.objects.filter(item=claim.item, status=Claim.ClaimStatus.PENDING).exists():
                 claim.item.status = ItemReport.Status.OPEN
                 claim.item.save()
 
-            Notification.objects.create(
-                recipient=claim.claimant,
-                title="Claim Status Update",
-                message=f"Your claim for '{claim.item.title}' was declined.",
-                notification_type=Notification.NotificationType.STATUS_UPDATE,
-                target_id=claim.item.id
-            )
             return Response({"message": "Claim has been rejected."}, status=status.HTTP_200_OK)
 
         return Response({"error": "Invalid action. Use 'approve' or 'reject'."}, status=status.HTTP_400_BAD_REQUEST)

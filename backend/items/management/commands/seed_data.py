@@ -11,7 +11,7 @@ User = get_user_model()
 
 
 class Command(BaseCommand):
-    help = "Seeds the database with campus chat data for deepbrain77@gmail.com."
+    help = "Seeds the database with campus chat data and notifications for deepbrain77@gmail.com."
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.WARNING("Starting database seeding process..."))
@@ -95,7 +95,7 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS("✓ Configured core user accounts (Target Account: deepbrain77@gmail.com)"))
 
-        # 4. Create Item Reports with date_lost included
+        # 4. Create Item Reports
         today = timezone.now().date()
 
         item1, _ = ItemReport.objects.get_or_create(
@@ -153,7 +153,7 @@ class Command(BaseCommand):
 
         # 5. Seed Claims & Conversations
 
-        # --- Thread 1: Calculator (Unread Messages) ---
+        # --- Thread 1: Calculator ---
         claim1, _ = Claim.objects.get_or_create(
             item=item1,
             claimant=olawale,
@@ -167,38 +167,14 @@ class Command(BaseCommand):
 
         Message.objects.get_or_create(
             conversation=conv1,
-            content="SYSTEM EVENT: CLAIM ACCEPTED\nDirect messaging unlocked. End to end encryption message.",
-            defaults={
-                "sender": None,
-                "message_type": Message.MessageType.SYSTEM_EVENT,
-            }
-        )
-        Message.objects.get_or_create(
-            conversation=conv1,
             content="Hello! Thank you so much for accepting the claim. I really need this calculator for my test tomorrow. When will you be around BOOC Porter's Lodge?",
             defaults={
                 "sender": olawale,
                 "is_read": False
             }
         )
-        Message.objects.get_or_create(
-            conversation=conv1,
-            content="Hi Olawale, I have already deposited the calculator with the hall porter, Mr. Adeleke, at BOOC Central Porter's Lodge. You can meet him with your student ID card and Handover Code.",
-            defaults={
-                "sender": main_user,
-                "is_read": False
-            }
-        )
-        Message.objects.get_or_create(
-            conversation=conv1,
-            content="Awesome! Heading there right now. Thanks again!",
-            defaults={
-                "sender": olawale,
-                "is_read": False
-            }
-        )
 
-        # --- Thread 2: Leather Wallet (Read) ---
+        # --- Thread 2: Leather Wallet ---
         claim2, _ = Claim.objects.get_or_create(
             item=item2,
             claimant=main_user,
@@ -210,16 +186,7 @@ class Command(BaseCommand):
         conv2, _ = Conversation.objects.get_or_create(item=item2)
         conv2.participants.add(main_user, folashade)
 
-        Message.objects.get_or_create(
-            conversation=conv2,
-            content="Hi Alex, I found a wallet matching your description at the library desk. Could you confirm your matriculation number?",
-            defaults={
-                "sender": folashade,
-                "is_read": True
-            }
-        )
-
-        # --- Thread 3: Laptop Charger (Read) ---
+        # --- Thread 3: Laptop Charger ---
         claim3, _ = Claim.objects.get_or_create(
             item=item3,
             claimant=tunde,
@@ -231,34 +198,59 @@ class Command(BaseCommand):
         conv3, _ = Conversation.objects.get_or_create(item=item3)
         conv3.participants.add(main_user, tunde)
 
-        Message.objects.get_or_create(
-            conversation=conv3,
-            content="Hello Alex! I left the charger with the security officer at 1000-seater main entrance.",
-            defaults={
-                "sender": tunde,
+        # 6. Seed Notifications Matching the UI Design Exactly
+        notifications_data = [
+            {
+                "recipient": main_user,
+                "actor": olawale,
+                "category": Notification.Category.CLAIM_SUBMITTED,
+                "title_prefix": "New Ownership Claim Submitted",
+                "item_title": "Casio fx-991ES Plus Calculator",
+                "body": "Olawale A. provided 3 identifying verification marks (engraved name initials on battery bay, blue casing sticker) for your review.",
+                "target_item_id": item1.id,
+                "target_claim_id": claim1.id,
+                "is_read": False
+            },
+            {
+                "recipient": main_user,
+                "actor": None,  # System match
+                "category": Notification.Category.MATCH_FOUND,
+                "title_prefix": "Potential Match Found",
+                "item_title": "Black Leather Bi-Fold Wallet",
+                "body": "An item closely matching your lost report parameters was cataloged at Student Union Building (SUB) Security Checkpoint (Desk 2). System algorithmic match confidence: 88%.",
+                "target_item_id": item2.id,
+                "is_read": False
+            },
+            {
+                "recipient": main_user,
+                "actor": olawale,
+                "category": Notification.Category.RECOVERY_PENDING,
+                "title_prefix": "Recovery Sign-Off Pending",
+                "item_title": "Casio fx-991ES Plus Calculator",
+                "body": "Olawale A. provided 3 identifying verification marks (engraved name initials on battery bay, blue casing sticker) for your review.",
+                "target_item_id": item1.id,
+                "target_claim_id": claim1.id,
+                "is_read": False
+            },
+            {
+                "recipient": main_user,
+                "actor": folashade,
+                "category": Notification.Category.CLAIM_ACCEPTED,
+                "title_prefix": "Claim Accepted",
+                "item_title": "Dell Latitude 65W AC Adapter & Power Cable",
+                "body": "Your ownership claim was authenticated and authorized by Hezekiah Oluwasanmi Library Front Desk. Physical handover code unlocked.",
+                "target_item_id": item3.id,
                 "is_read": True
             }
-        )
+        ]
 
-        # 6. Seed Notifications
-        Notification.objects.get_or_create(
-            recipient=main_user,
-            target_id=claim1.id,
-            defaults={
-                "title": "New Ownership Claim Received",
-                "message": f"Olawale A. submitted an ownership claim for '{item1.title}'.",
-                "notification_type": Notification.NotificationType.CLAIM,
-            }
-        )
-        Notification.objects.get_or_create(
-            recipient=main_user,
-            target_id=conv1.id,
-            defaults={
-                "title": "New Message Received",
-                "message": "Olawale A. sent you a message regarding Casio fx-991ES Plus.",
-                "notification_type": Notification.NotificationType.MESSAGE,
-            }
-        )
+        for notif_kwargs in notifications_data:
+            Notification.objects.get_or_create(
+                recipient=notif_kwargs["recipient"],
+                title_prefix=notif_kwargs["title_prefix"],
+                item_title=notif_kwargs["item_title"],
+                defaults=notif_kwargs
+            )
 
-        self.stdout.write(self.style.SUCCESS("✓ Seeded conversations, message history, system event notices, and notifications."))
-        self.stdout.write(self.style.SUCCESS("\nSeeding complete! Log in to deepbrain77@gmail.com (Password: Daniel@07) to test real-time chat."))
+        self.stdout.write(self.style.SUCCESS("✓ Seeded UI-matched notifications, conversations, and claims."))
+        self.stdout.write(self.style.SUCCESS("\nSeeding complete! Log in to deepbrain77@gmail.com (Password: Daniel@07)."))
