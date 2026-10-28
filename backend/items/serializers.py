@@ -2,6 +2,7 @@
 from rest_framework import serializers
 from .models import ItemReport, ItemImage, Category, CampusLandmark, Claim, ClaimProof
 
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -21,9 +22,11 @@ class ItemImageSerializer(serializers.ModelSerializer):
 
 
 class ItemReportSerializer(serializers.ModelSerializer):
+    category_details = CategorySerializer(source='category', read_only=True)
+    landmark_details = CampusLandmarkSerializer(source='campus_landmark', read_only=True)
     images = ItemImageSerializer(many=True, read_only=True)
     uploaded_images = serializers.ListField(
-        child=serializers.ImageField(max_length=10000000, allow_empty_file=False, use_url=False),
+        child=serializers.ImageField(max_length=10000000, allow_empty_file=False),
         write_only=True,
         required=False,
         help_text="Upload multiple image files"
@@ -35,8 +38,8 @@ class ItemReportSerializer(serializers.ModelSerializer):
         model = ItemReport
         fields = [
             'id', 'item_ref', 'reporter', 'report_type', 'status', 'stage_description',
-            'title', 'category', 'description', 'brand', 'primary_colour',
-            'distinguishing_features', 'campus_landmark', 'specific_location_details',
+            'title', 'category', 'category_details', 'description', 'brand', 'primary_colour',
+            'distinguishing_features', 'campus_landmark', 'landmark_details', 'specific_location_details',
             'date_lost', 'estimated_time', 'time_frame', 'images', 'uploaded_images',
             'pending_claims_count', 'created_at', 'updated_at'
         ]
@@ -63,6 +66,17 @@ class ItemReportSerializer(serializers.ModelSerializer):
             ItemImage.objects.create(item=item_report, image=image_file)
 
         return item_report
+
+    def update(self, instance, validated_data):
+        uploaded_images = validated_data.pop('uploaded_images', [])
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        for image_file in uploaded_images:
+            ItemImage.objects.create(item=instance, image=image_file)
+
+        return instance
 
 
 class MyReportsSummarySerializer(serializers.Serializer):
@@ -109,10 +123,10 @@ class ClaimSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         item = attrs.get('item')
 
-        if item.reporter == request.user:
+        if item and item.reporter == request.user:
             raise serializers.ValidationError("You cannot submit an ownership claim on an item report you created.")
 
-        if Claim.objects.filter(item=item, claimant=request.user, status=Claim.ClaimStatus.PENDING).exists():
+        if item and Claim.objects.filter(item=item, claimant=request.user, status=Claim.ClaimStatus.PENDING).exists():
             raise serializers.ValidationError("You already have an active pending claim for this item.")
 
         return attrs

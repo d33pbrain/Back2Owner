@@ -12,7 +12,7 @@ class ParticipantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'full_name', 'department_or_faculty', 'role_badge']
+        fields = ['id', 'full_name', 'department_or_faculty', 'avatar', 'role_badge']
 
     def get_role_badge(self, obj):
         conversation = self.context.get('conversation')

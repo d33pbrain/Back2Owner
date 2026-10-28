@@ -1,7 +1,7 @@
 """
 Django settings for Back2Owner project.
 
-Configured for Render Deployment & Supabase PostgreSQL Database.
+Configured for Render Deployment, Supabase PostgreSQL, Resend, & Cloudinary Media Storage.
 """
 
 import os
@@ -31,6 +31,9 @@ INSTALLED_APPS = [
     # Django ASGI Server (must be at the top)
     'daphne',
 
+    # Cloudinary storage apps (must be placed before django.contrib.staticfiles)
+    'cloudinary_storage',
+
     # Django core apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Cloudinary SDK
+    'cloudinary',
 
     # Third-party apps
     'corsheaders',
@@ -170,12 +176,21 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
+# Static files (CSS, JavaScript)
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files (Uploaded images & avatars)
+
+# Cloudinary Storage Configuration
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
+
+# Media files (Uploaded images & avatars routed via Cloudinary)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 

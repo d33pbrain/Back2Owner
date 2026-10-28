@@ -26,18 +26,25 @@ def send_otp_email(user, otp_code, title="Verify Your Email"):
     """Sends OTP verification code via Resend API."""
     resend.api_key = getattr(settings, 'RESEND_API_KEY', '')
 
+    # Hardcode test recipient during development to bypass Resend domain restrictions
+    test_recipient = "deepbrain77@gmail.com"
+
     print("\n==================================================")
     print(f" [BACK2OWNER OTP LOG] Purpose: {title}")
-    print(f" [BACK2OWNER OTP LOG] Target Email: {user.email}")
+    print(f" [BACK2OWNER OTP LOG] Intended Recipient: {user.email}")
+    print(f" [BACK2OWNER OTP LOG] Routing To: {test_recipient}")
     print(f" [BACK2OWNER OTP LOG] Code: {otp_code}")
     print("==================================================\n")
 
     params = {
         "from": getattr(settings, 'DEFAULT_FROM_EMAIL', 'Back2Owner <onboarding@resend.dev>'),
-        "to": [user.email],
-        "subject": f"Back2Owner - {title}",
+        "to": [test_recipient],
+        "subject": f"Back2Owner - {title} (For: {user.email})",
         "html": f"""
             <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+                <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 10px; margin-bottom: 15px; font-size: 12px; color: #92400e;">
+                    <strong>Dev Notice:</strong> Intended recipient: <strong>{user.email}</strong>
+                </div>
                 <h2 style="color: #2563eb; text-align: center;">Back2Owner Campus Network</h2>
                 <p>Hello <strong>{user.full_name}</strong>,</p>
                 <p>Your OTP code for <strong>{title}</strong> is:</p>
@@ -51,10 +58,9 @@ def send_otp_email(user, otp_code, title="Verify Your Email"):
 
     try:
         response = resend.Emails.send(params)
-        print(f"[RESEND SUCCESS] Sent! Response: {response}")
+        print(f"[RESEND SUCCESS] Sent to {test_recipient}! Response: {response}")
     except Exception as e:
-        print(f"[RESEND ERROR] Failed to deliver email to {user.email}. Error Details: {e}\n")
-
+        print(f"[RESEND ERROR] Failed to deliver email to {test_recipient}. Error Details: {e}\n")
 
 @extend_schema_view(
     post=extend_schema(
