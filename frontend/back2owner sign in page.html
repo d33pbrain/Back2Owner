@@ -12,38 +12,41 @@
   <main class="relative isolate mx-auto w-full max-w-[1280px] overflow-hidden bg-[#F8F9FF] xl:h-[870px]">
     
     <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-      
       <div class="absolute inset-x-0 bottom-0 -z-20 h-[420px] rounded-t-[40px] bg-brand xl:hidden"></div>
-      <img src="images/girl3.png" alt=""class="absolute bottom-0 left-1/2 h-[300px] w-auto max-w-none -translate-x-[70%] xl:hidden">
+      <img src="images/girl3.png" alt="" class="absolute bottom-0 left-1/2 h-[300px] w-auto max-w-none -translate-x-[70%] xl:hidden">
       <img src="images/Rectangle 2.svg" alt="" class="absolute hidden max-w-none xl:block xl:left-[-53px] xl:top-[101px] xl:h-[865px] xl:w-[1387px]">
       <img src="images/girl3.png" alt="" class="absolute hidden max-w-none xl:block xl:left-[-26px] xl:top-[-85px] xl:h-[1004px] xl:w-[1799px]">
-      </div>
+    </div>
       
-      <div class="flex min-h-screen w-full items-start justify-center px-4 pb-[400px] pt-8 xl:h-[870px] xl:min-h-0 xl:items-center xl:justify-between xl:pb-10 xl:pl-[52px] xl:pr-8 xl:pt-10">
+    <div class="flex min-h-screen w-full items-start justify-center px-4 pb-[400px] pt-8 xl:h-[870px] xl:min-h-0 xl:items-center xl:justify-between xl:pb-10 xl:pl-[52px] xl:pr-8 xl:pt-10">
 
-        <div class="flex h-fit w-full max-w-[576px] flex-col gap-6 rounded-[30px] bg-white px-6 py-8 sm:px-12 sm:py-10">
+      <div class="flex h-fit w-full max-w-[576px] flex-col gap-6 rounded-[30px] bg-white px-6 py-8 sm:px-12 sm:py-10">
 
-          <div class="flex items-center gap-2">
-            <span class="h-2.5 w-2.5 rounded-[2px] bg-[#151C25]"></span>
-            <span class="text-[11px] font-bold uppercase tracking-[0.1em] text-[#151C25]">Back2Owner</span>
-          </div>
+        <div class="flex items-center gap-2">
+          <span class="h-2.5 w-2.5 rounded-[2px] bg-[#151C25]"></span>
+          <span class="text-[11px] font-bold uppercase tracking-[0.1em] text-[#151C25]">Back2Owner</span>
+        </div>
 
-          <div class="flex flex-col gap-2">
-            <h1 class="text-[26px] font-extrabold leading-tight text-[#151C25] sm:text-[32px]">Welcome Back</h1>
-            <p class="text-[15px] leading-[23px] text-[#45464C]">
+        <div class="flex flex-col gap-2">
+          <h1 class="text-[26px] font-extrabold leading-tight text-[#151C25] sm:text-[32px]">Welcome Back</h1>
+          <p class="text-[15px] leading-[23px] text-[#45464C]">
             Sign in to your Back2Owner account to report lost items, check claim statuses, and connect with finders across Great Ife campus.
-            </p>
-          </div>
+          </p>
+        </div>
 
-          <form id="signin-form" class="flex w-full flex-col gap-5">
+        <!-- Global Status Alert Box (Error / Success Messages) -->
+        <div id="status-alert" class="hidden rounded-xl border p-3 text-[13px] font-medium"></div>
+
+        <form id="signin-form" class="flex w-full flex-col gap-5">
 
           <div class="flex flex-col gap-2">
             <label for="email" class="text-[16px] font-semibold leading-5 text-[#151C25]">
               Email Address <span class="text-[#E5484D]">*</span>
             </label>
-            <input id="email" type="email" required autocomplete="email" placeholder="e.g., student@student.oauife.edu.ng" class="h-12 w-full rounded-xl border border-[#D6DEEA] bg-white p-3 text-[14px] font-medium leading-5 text-[#151C25]">
+            <input id="email" type="email" required autocomplete="email" placeholder="e.g., student@student.oauife.edu.ng" class="h-12 w-full rounded-xl border border-[#D6DEEA] bg-white p-3 text-[14px] font-medium leading-5 text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20">
             <p class="flex items-center gap-1.5 text-[12px] font-medium leading-4 text-[#45464C]">
-              <svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>Must be a valid email address</p>
+              <svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>Must be a valid email address
+            </p>
           </div>
 
           <div class="flex flex-col gap-2">
@@ -52,7 +55,7 @@
             </label>
             <div class="relative">
               <input id="password" type="password" required autocomplete="current-password" placeholder="••••••••••••"
-                     class="h-12 w-full rounded-lg border border-[#D6DEEA] bg-white p-3 pr-11 text-[14px] font-medium leading-5 text-[#151C25] outline-none placeholder:text-[#76777D] focus:border-brand">
+                     class="h-12 w-full rounded-lg border border-[#D6DEEA] bg-white p-3 pr-11 text-[14px] font-medium leading-5 text-[#151C25] outline-none placeholder:text-[#76777D] focus:border-brand focus:ring-2 focus:ring-brand/20">
               <button id="toggle-password" type="button" aria-label="Show password" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#45464C] hover:text-[#151C25]">
                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               </button>
@@ -61,7 +64,13 @@
           </div>
 
           <div class="flex w-full flex-col pt-1">
-            <button type="submit" class="flex h-[60px] w-full items-center justify-center rounded-[18px] bg-accent px-4 py-3 text-[16px] font-semibold leading-6 text-white transition-colors hover:bg-accent-dark">Login</button>
+            <button id="submit-btn" type="submit" class="flex h-[60px] w-full items-center justify-center gap-2 rounded-[18px] bg-accent px-4 py-3 text-[16px] font-semibold leading-6 text-white transition-colors hover:bg-accent-dark disabled:opacity-60 disabled:cursor-not-allowed">
+              <span id="submit-text">Login</span>
+              <svg id="submit-spinner" class="hidden h-5 w-5 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </button>
           </div>
 
           <div class="flex w-full items-center justify-center gap-1 pt-1">
@@ -69,23 +78,11 @@
             <a href="back2owner sign up page.html" class="text-[15px] font-semibold text-[#151C25] hover:text-brand">Sign Up.</a>
           </div>
 
-          </form>
-        </div>
+        </form>
+      </div>
     </div>
   </main>
 
-  <script>
-    // Show / hide password
-    const pw = document.getElementById("password");
-    document.getElementById("toggle-password").addEventListener("click", () => {
-      pw.type = pw.type === "password" ? "text" : "password";
-    });
-
-    // Login (front end only for now)
-    document.getElementById("signin-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-      window.location.href = "back2owner home page.html"; 
-    });
-  </script>
+  <script src="js/signin.js"></script>
 </body>
 </html>

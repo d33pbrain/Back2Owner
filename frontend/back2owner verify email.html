@@ -29,9 +29,12 @@
           </h1>
 
           <p class="text-[15px] font-normal leading-[23px] tracking-normal text-[#45464C]">
-            A 6-digit confirmation code has been sent to your email, kindly check your mail.
+            A 6-digit confirmation code has been sent to <span id="target-email" class="font-semibold text-[#151C25]">your email</span>. Kindly check your inbox or spam folder.
           </p>
         </div>
+
+        <!-- Global Status Alert Box (Error / Success Messages) -->
+        <div id="status-alert" class="hidden rounded-xl border p-3 text-[13px] font-medium"></div>
 
         <form id="verify-form" class="flex w-full flex-col gap-6">
 
@@ -41,7 +44,7 @@
             </label>
 
             <div id="code-row" class="flex h-[43px] w-full justify-between gap-2 sm:gap-4 xl:gap-0">
-              <input type="text" inputmode="numeric" maxlength="6" autocomplete="one-time-code" aria-label="Digit 1"
+              <input type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 1"
                      class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 xl:w-[60px] xl:flex-none" />
               <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2"
                      class="code-box h-[43px] min-w-0 flex-1 rounded-lg border border-[#D6DEEA] bg-white px-3 text-center text-[18px] font-bold text-[#151C25] focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 xl:w-[60px] xl:flex-none" />
@@ -57,59 +60,27 @@
           </div>
 
           <div class="flex w-full flex-col pt-1">
-            <button type="submit"
-                    class="flex h-[60px] w-full items-center justify-center gap-1 rounded-[18px] bg-accent px-4 py-3 transition-colors hover:bg-accent-dark focus:outline-none focus:ring-2 focus:ring-accent/40">
-              <span class="text-center text-[16px] font-semibold leading-6 tracking-normal text-white">Confirm</span>
+            <button id="submit-btn" type="submit"
+                    class="flex h-[60px] w-full items-center justify-center gap-2 rounded-[18px] bg-accent px-4 py-3 transition-colors hover:bg-accent-dark focus:outline-none focus:ring-2 focus:ring-accent/40 disabled:opacity-60 disabled:cursor-not-allowed">
+              <span id="submit-text" class="text-center text-[16px] font-semibold leading-6 tracking-normal text-white">Confirm</span>
+              <svg id="submit-spinner" class="hidden h-5 w-5 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
             </button>
           </div>
         </form>
 
         <div class="flex w-full flex-wrap items-center justify-center gap-1 pt-1">
           <span class="text-center text-[14px] font-medium leading-5 tracking-normal text-[#45464C]">Didn't Receive An Email?</span>
-          <button type="button" id="resend"
-                  class="text-center text-[15px] font-semibold leading-[22px] tracking-normal text-[#151C25] hover:text-brand">Request</button>
+          <button type="button" id="resend-btn"
+                  class="text-center text-[15px] font-semibold leading-[22px] tracking-normal text-[#151C25] hover:text-brand disabled:opacity-50">Request New Code</button>
         </div>
 
       </section>
     </div>
   </main>
 
-  <script>
-    const boxes = document.querySelectorAll(".code-box");
-
-    boxes.forEach(function (box, i) {
-      box.addEventListener("input", function () {
-        const digits = box.value.replace(/\D/g, "");
-        
-        if (digits.length > 1) {
-            digits.slice(0, boxes.length - i).split("").forEach(function (d, k) {
-                boxes[i + k].value = d;
-            });
-            boxes[Math.min(i + digits.length, boxes.length - 1)].focus();
-            return;
-        }
-
-        box.value = digits;
-        if (digits && i < boxes.length - 1) boxes[i + 1].focus();
-    });
-      box.addEventListener("paste", function (e) {
-        e.preventDefault();
-        const digits = (e.clipboardData.getData("text") || "").replace(/\D/g, "").slice(0, boxes.length);
-        digits.split("").forEach(function (d, k) { boxes[k].value = d; });
-        boxes[Math.min(digits.length, boxes.length - 1)].focus();
-      });
-    });
-
-    document.getElementById("verify-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const code = Array.from(boxes).map(function (b) { return b.value; }).join("");
-      if (code.length < boxes.length) { alert("Please enter all 6 digits."); return; }
-      window.location.href = "back2owner home page.html";
-    });
-
-    document.getElementById("resend").addEventListener("click", function () {
-      console.log("Resend requested");
-    });
-  </script>
+  <script src="js/verify_email.js"></script>
 </body>
 </html>
